@@ -1,5 +1,4 @@
 const api = require('../utils/api')
-const helpers = require('../utils/helpers')
 
 const handlePostback = async (postback, profile, messageSender) => {
   switch (postback.payload) {
@@ -28,7 +27,7 @@ const handlePostback = async (postback, profile, messageSender) => {
     case 'SEARCH':
       messageSender
         .setMessage({
-          text: 'What country / region you are located? e.g. Philippines',
+          text: 'What country or region you are located? Just put a "/" first \n e.g. /Philippines',
         })
         .send()
   }
@@ -38,19 +37,27 @@ const handleMessage = async (message, profile, messageSender) => {
   if (message.quick_reply) {
     console.log(message.quick_reply)
   } else if (message.text) {
-    const region = helpers.ucfirst(message.text.toLowerCase())
-    const stats = await api.casesByRegionApi(region)
+    if (message.text.startsWith('/')) {
+      const searchTerm = message.text.split('/').join('')
+      const stats = await api.casesByRegionApi(searchTerm)
 
-    messageSender.setMessage({
-      text: stats 
-        ? region + ' currently have: \n' +
-          ` - ${stats.cases} reported cases \n` +
-          ` - ${stats.deaths} deaths \n` +
-          ` - ${stats.total_recovered} recovered \n` +
-          `Stay safe ${profile.first_name || 'my friend'}!`
-        : `Sorry, we can't find your region.`
-      })
-      .send()
+      messageSender.setMessage({
+        text: stats 
+          ? stats.country_name + ' currently have: \n' +
+            ` - ${stats.cases} reported cases \n` +
+            ` - ${stats.deaths} deaths \n` +
+            ` - ${stats.total_recovered} recovered \n` +
+            `Stay safe ${profile.first_name || 'my friend'}!`
+          : `Sorry, we can't find your region.`
+        })
+        .send()
+    } else {
+      messageSender
+        .setMessage({
+          text: `I don't understand :(\nTry searching for your country: /Philippines`
+        })
+        .send()
+    }
   }
 }
 

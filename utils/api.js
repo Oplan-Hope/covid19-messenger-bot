@@ -1,4 +1,4 @@
-const casesByRegionApi = async region => {
+const casesByRegionApi = async searchTerm => {
   try {
     const res = await fetch(process.env.RAPIDAPI_URL + '/cases_by_country.php', {
       headers: {
@@ -7,7 +7,9 @@ const casesByRegionApi = async region => {
     })
 
     const stats = await res.json()
-    return stats.countries_stat.find(stat => stat.country_name === region)
+    return stats.countries_stat.find(
+      s => s.country_name.match(new RegExp(searchTerm, 'i'))
+    )
   } catch (error) {
     console.error('There is an error: ', error)
   }
