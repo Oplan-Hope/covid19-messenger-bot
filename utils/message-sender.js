@@ -49,9 +49,9 @@ class MessageSender {
           sender_action: this.action
         })
       })
-
-      this.action = undefined
-      this.message = undefined
+      
+      this.setAction(undefined)
+      this.setMessage(undefined)
     } catch (error) {
       console.log(error)
     }
