@@ -1,0 +1,13 @@
+{
+  "name": "covid19-messenger-bot",
+  "description": "Messenger chatbot that helps in tracking COVID19 cases, recoveries & deaths",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/palonponjovertlota/covid19-messenger-bot",
+  "author": "Jovert Palonpon <palonponjovertlota@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "isomorphic-unfetch": "^3.0.0"
+  }
+}
