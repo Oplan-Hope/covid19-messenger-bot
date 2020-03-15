@@ -31,21 +31,20 @@ app.post('/', (req, res) => {
       for (const event of entry.messaging) {
         // The facebook user's Page-scoped ID (PSID).
         const id = event.sender.id
-        const messageSender = new MessageSender(id)
         
         // Notifies user that the we are preparing something...
-        messageSender.setAction('typing_on').send()
+        new MessageSender(id).setAction('typing_on').send()
 
         // We will retrieve the user's information using the PSID.
         const profile = await retrieveProfile(id, ['first_name', 'gender'])
 
         // Notifies user that the we are done...
-        await messageSender.setAction('typing_off').send()
+        await new MessageSender(id).setAction('typing_off').send()
 
         if (event.postback) {
-          handlePostback(event.postback, profile, messageSender)
+          handlePostback(event.postback, profile, new MessageSender(id))
         } else if (event.message) {
-          console.log(event.message)
+          // console.log(event.message)
         }
       }
     })()
