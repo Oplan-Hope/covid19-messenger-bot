@@ -19,22 +19,36 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
+  /*
+    You must send back a status of 200(success) within 20 seconds
+    to let us know you've successfully received the callback.
+    Otherwise, the request will time out.
+    When a request times out from Facebook the service attempts
+    to resend the message.
+    This is why it is good to send a response immediately so you
+    don't get duplicate messages in the event that a request takes
+    awhile to process.
+  */
+  res.sendStatus(200)
+
   const data = req.body
 
+  // We don't care about non page interactions at this point.
   if (data.object !== 'page') {
-    // We don't care about non page interactions at this point.
     return res.sendStatus(400)
   }
 
+  // Iterate over each entry
+  // There may be multiple if batched
   for (const entry of data.entry) {
-    ;(async function() {
-      for (const event of entry.messaging) {
-        // The facebook user's Page-scoped ID (PSID).
-        const id = event.sender.id
-        
-        // Notifies user that the we are preparing something...
-        new MessageSender(id).setAction('typing_on').send()
+    for (const event of entry.messaging) {
+      // The facebook user's Page-scoped ID (PSID).
+      const id = event.sender.id
+      
+      // Notifies user that the we are preparing something...
+      new MessageSender(id).setAction('typing_on').send()
 
+      ;(async function() {
         // We will retrieve the user's information using the PSID.
         const profile = await retrieveProfile(id, ['first_name', 'gender'])
 
@@ -45,9 +59,14 @@ app.post('/', (req, res) => {
           handlePostback(event.postback, profile, new MessageSender(id))
         } else if (event.message) {
           // console.log(event.message)
+        } else {
+          console.log(
+            'Webhook received unknown messagingEvent: ',
+            event
+          )
         }
-      }
-    })()
+      })()
+    }
   }
 })
 

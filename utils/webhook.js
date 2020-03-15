@@ -9,7 +9,7 @@ const fetchWorldTotal = async () => {
     const stats = await res.json()
     return stats
   } catch (error) {
-    console.log(error)
+    console.error('There is an error: ', error)
   }
 }
 
