@@ -6,7 +6,7 @@ require('isomorphic-unfetch')
 
 const app = express().use(bodyParser.json())
 const port = process.env.PORT || 8000
-const { handlePostback } = require('./utils/webhook')
+const { handlePostback, handleMessage } = require('./routes/webhook')
 const retrieveProfile = require('./utils/retrieve-profile')
 const MessageSender = require('./utils/message-sender')
 
@@ -58,7 +58,7 @@ app.post('/', (req, res) => {
         if (event.postback) {
           handlePostback(event.postback, profile, new MessageSender(id))
         } else if (event.message) {
-          // console.log(event.message)
+          handleMessage(event.message, profile, new MessageSender(id))
         } else {
           console.log(
             'Webhook received unknown messagingEvent: ',
