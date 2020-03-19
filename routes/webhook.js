@@ -19,13 +19,15 @@ const handlePostback = async (postback, profile, messageSender) => {
               content_type: "text",
               title: "Hospital near me",
               payload: "HNM",
-              image_url:'https://cdn3.iconfinder.com/data/icons/small-color-v11/512/blood_drop_hospital_infusion_medical_transfusion-512.png'
+              image_url:
+                "https://cdn3.iconfinder.com/data/icons/small-color-v11/512/blood_drop_hospital_infusion_medical_transfusion-512.png"
             },
             {
               content_type: "text",
               title: "Checkpoints near me",
               payload: "CNM",
-              image_url:"https://image.shutterstock.com/image-vector/road-closed-street-barrier-on-260nw-1212098479.jpg"
+              image_url:
+                "https://image.shutterstock.com/image-vector/road-closed-street-barrier-on-260nw-1212098479.jpg"
             }
           ]
         })
@@ -36,23 +38,56 @@ const handlePostback = async (postback, profile, messageSender) => {
       messageSender;
       messageSender
         .setMessage({
-          text: `Hi ${profile.first_name} what do you want to know right now?`,
+          text: `Hi ${profile.first_name} what do you want to know right now? Cases around the world or Cases per location`,
           quick_replies: [
             {
               content_type: "text",
-              title: "Cases around the world",
+              title: "COVID19 cases around the world",
               payload: "CATW",
-              image_url:"https://i.pinimg.com/originals/dd/d5/0c/ddd50c7fd01a3a3927b932d8a5d4857c.png"
+              image_url:
+                "https://i.pinimg.com/originals/dd/d5/0c/ddd50c7fd01a3a3927b932d8a5d4857c.png"
             },
             {
               content_type: "text",
-              title: "Search COVID case",
+              title: "COVID19 cases per location",
               payload: "SCS",
-              image_url:"https://png.pngtree.com/element_our/png_detail/20181206/find-vector-icon-png_260845.jpg"
+              image_url:
+                "https://png.pngtree.com/element_our/png_detail/20181206/find-vector-icon-png_260845.jpg"
             }
           ]
         })
         .send();
+      break;
+
+    case "RESOURCES":
+      messageSender
+        .setMessage({
+          text: `Hi ${profile.first_name} COVID is just a virus, you just need to learn new things about it.`,
+          quick_replies: [
+            {
+              content_type: "text",
+              title: "What is COVID19",
+              payload: "R-WIC"
+            },
+            {
+              content_type: "text",
+              title: "What should I do",
+              payload: "R-WSD"
+            },
+            {
+              content_type: "text",
+              title: "COVID19 MAP",
+              payload: "R-CM"
+            },
+            {
+              content_type: "text",
+              title: "COVID19 Tweets",
+              payload: "R-CT"
+            }
+          ]
+        })
+        .send();
+      break;
   }
 };
 
@@ -61,11 +96,55 @@ const handleMessage = async (message, profile, messageSender) => {
     const { payload } = message.quick_reply;
 
     console.log(payload);
- 
 
     switch (payload) {
+      case "R-WIC":
+        messageSender
+          .setMessage({
+            text:
+              `A pneumonia of unknown cause detected in Wuhan, China was first reported to the WHO Country Office in China on 31 December 2019 \n` + 
+              `WHO is working 24/7 to analyse data, provide advice, coordinate with partners, help countries prepare, increase supplies and manage expert networks.\n`+
+              `The outbreak was declared a Public Health Emergency of International Concern on 30 January 2020..\n`+
+              `The international community has asked for US$675 million to help protect states with weaker health systems as part of its Strategic Preparedness and Response Plan...\n`+
+              `The international community has asked for US$675 million to help protect states with weaker health systems as part of its Strategic Preparedness and Response Plan...\n`+
+              `On 11 February 2020, WHO announced a name for the new coronavirus disease: COVID-19.`
+            })
+          .send();
+        break;
+      case "R-WSD":
+        messageSender
+          .setMessage({
+            text:
+              `Hey ${profile.first_name}, soon things will be brighter. Stay strong!\n ` +
+              `-For the mean time, here's what you should do to help yourself stay awared.\n` +
+              `-Wash your hands frequently \n ` +
+              `-Maintain social distancing \n ` +
+              `-Avoid touching eyes, nose and mouth \n ` +
+              `-Practice respiratory hygiene \n ` +
+              `-If you have fever, cough and difficulty breathing, seek medical care early\n ` +
+              `-Stay informed and follow advice given by your healthcare provider\n ` +
+              `-Source: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public\n`
+          })
+          .send();
+        break;
+
+      case "R-CM":
+        messageSender
+          .setMessage({
+            text: `If you want to take a look a detail case of the COVID 19 here's the link of the map \n Map Link: https://the2019ncov.com/`
+          })
+          .send();
+        break;
+
+      case "R-CT":
+        messageSender
+          .setMessage({
+            text: `Here's the tweets about #COVID19 https://twitter.com/search?q=%23COVID&src=typed_query`
+          })
+          .send();
+        break;
       case "CATW":
-        const statsWorld= await api.worldTotalApi();
+        const statsWorld = await api.worldTotalApi();
         messageSender
           .setMessage({
             text:
@@ -115,46 +194,36 @@ const handleMessage = async (message, profile, messageSender) => {
           })
           .send();
         break;
-       case "OTLC":
+      case "OTLC":
         messageSender
-        .setMessage({
-          text: 'What country or region you are located? Just put a "/" first \n e.g. /China',
-        })
-        .send()
-        break;
-
-        case "HNM":
-         console.log('Hospital Near Me')
-         break;
-
-        case "CNM":
-          messageSender .setMessage({
-           text:"send me your location",
-           "quick_replies":[
-            {
-              "content_type":"text",
-              "title":"Search",
-              "payload":"<POSTBACK_PAYLOAD>",
-              "image_url":"http://example.com/img/red.png"
-            },
-            {
-              "content_type":"location"
-            }
-          ]
+          .setMessage({
+            text:
+              'What country or region you are located? Just put a "/" first \n e.g. /China'
           })
-        console.log('Checkpoint Near me')
+          .send();
         break;
-    
-       default:
-       messageSender
-       .setMessage({
-         text: `Sorry I don't understand you stay safe  ${
-           profile.first_name ? profile.first_name : "Little Warrior"
-         }. To know more about kindly COVID see this link https://www.youtube.com/watch?v=95eNDcugOYU`
-       })
-       .send();
-       break;
-      
+
+      case "HNM":
+        console.log("Hospital Near Me");
+        break;
+
+      case "CNM":
+        messageSender.setMessage({
+          text: "Your Location",
+          quick_replies: [{ content_type: "location" }]
+        });
+        console.log("Checkpoint Near me");
+        break;
+
+      default:
+        messageSender
+          .setMessage({
+            text: `Sorry I don't understand you stay safe  ${
+              profile.first_name ? profile.first_name : "Little Warrior"
+            }. To know more about kindly COVID see this link https://www.youtube.com/watch?v=95eNDcugOYU`
+          })
+          .send();
+        break;
     }
   } else if (message.text) {
     if (message.text.startsWith("/")) {
@@ -174,8 +243,6 @@ const handleMessage = async (message, profile, messageSender) => {
             : `Sorry, we can't find your region.`
         })
         .send();
-  
-        
     } else {
       messageSender
         .setMessage({
@@ -187,7 +254,6 @@ const handleMessage = async (message, profile, messageSender) => {
     }
   }
 };
-
 
 module.exports = {
   handlePostback,
