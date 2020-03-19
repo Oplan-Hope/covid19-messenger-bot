@@ -43,16 +43,26 @@ app.post('/', (req, res) => {
   for (const entry of data.entry) {
     for (const event of entry.messaging) {
       // The facebook user's Page-scoped ID (PSID).
+
+
+      console.log(event)
       const id = event.sender.id
+
+
       
       // Notifies user that the we are preparing something...
       new MessageSender(id).setAction('typing_on').send()
+      
 
       ;(async function() {
         // We will retrieve the user's information using the PSID.
         const profile = await retrieveProfile(id, ['first_name', 'gender'])
 
         // Notifies user that the we are done...
+
+
+        console.log(profile)
+
         await new MessageSender(id).setAction('typing_off').send()
 
         if (event.postback) {

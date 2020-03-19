@@ -7,7 +7,8 @@ const casesByRegionApi = async searchTerm => {
     })
 
     const stats = await res.json()
-    return stats.countries_stat.find(
+    console.log(stats)
+    return await stats.countries_stat.find(
       s => s.country_name.match(new RegExp(searchTerm, 'i'))
     )
   } catch (error) {

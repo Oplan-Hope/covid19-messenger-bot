@@ -6,6 +6,9 @@
   "repository": "https://github.com/palonponjovertlota/covid19-messenger-bot",
   "author": "Jovert Palonpon <palonponjovertlota@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev-watch": "nodemon server.js"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
