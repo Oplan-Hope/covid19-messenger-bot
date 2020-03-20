@@ -133,7 +133,7 @@ const handleMessage = async (message, profile, messageSender) => {
       case "R-CM":
         messageSender
           .setMessage({
-            text: `If you want to take a look at the detailed case of the COVID 19 here's the link of the map:https://the2019ncov.com/`
+            text: `If you want to take a look at the detailed mapping of COVID-19 cases, please check out this link for an interactive map: https://the2019ncov.com/`
           })
           .send();
         break;
