@@ -13,7 +13,7 @@ const handlePostback = async (postback, profile, messageSender) => {
     case "QUICK_UPDATE":
       messageSender
         .setMessage({
-          text: `Hi ${profile.first_name ? profile.first_name : ''} how can I help you?`,
+          text: `Hello! These features are still under development. For the meantime, you can use our other features on menu option. Stay tuned! 🙂`,
           quick_replies: [
             {
               content_type: "text",
