@@ -38,7 +38,7 @@ const handlePostback = async (postback, profile, messageSender) => {
       messageSender;
       messageSender
         .setMessage({
-          text: `Hi ${profile.first_name} what do you want to know right now? (cases around the world, cases on specific location)`,
+          text: `Hey, as I can see, you are curious about how many cases of COVID-19 we have right now. Which you wanna check?`,
           quick_replies: [
             {
               content_type: "text",
@@ -62,7 +62,7 @@ const handlePostback = async (postback, profile, messageSender) => {
     case "RESOURCES":
       messageSender
         .setMessage({
-          text: `"Hey, buddy! This is just a test for us. For the meantime, here's the list of things we can do for you`,
+          text: `Hey, don't worry. Earth is just healing itself from humanities. For the meantime, here's the list of things we can do for you.`,
           quick_replies: [
             {
               content_type: "text",
@@ -116,7 +116,7 @@ const handleMessage = async (message, profile, messageSender) => {
           .setMessage({
             text:
               `Hey ${
-                profile.first_name ? profile.first_name : "buddy!"
+                profile.first_name ? profile.first_name : ""
               }, soon things will be brighter. Stay strong!\n ` +
               `-For the mean time, here's what you should do to help yourself stay awared.\n` +
               `-Wash your hands frequently\n ` +
@@ -160,9 +160,7 @@ const handleMessage = async (message, profile, messageSender) => {
       case "SCS":
         messageSender
           .setMessage({
-            text: `${
-              profile.first_name ? profile.first_name : "buddy!"
-            } are you looking for the cases at the Philippines?`,
+            text: `"Uhm.. Are you looking for number of cases right now here in the Philippines?"`,
             quick_replies: [
               {
                 content_type: "text",
@@ -251,7 +249,7 @@ const handleMessage = async (message, profile, messageSender) => {
       messageSender
         .setMessage({
           text: `Hey, ${
-            profile.first_name ? profile.first_name : "buddy"
+            profile.first_name ? profile.first_name : ""
           }. I can't quite seem to understand what you're trying to say. Please try to use another keyword so I can give you more information. https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public `
         })
         .send();
