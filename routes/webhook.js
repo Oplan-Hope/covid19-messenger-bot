@@ -62,7 +62,7 @@ const handlePostback = async (postback, profile, messageSender) => {
     case "RESOURCES":
       messageSender
         .setMessage({
-          text: `Hey, don't worry. Earth is just healing itself from humanities. For the meantime, here's the list of things we can do for you.`,
+          text: `Hey, don't worry. Earth is just healing itself from us. For the meantime, here's the list of things we can do for you.`,
           quick_replies: [
             {
               content_type: "text",
