@@ -141,7 +141,7 @@ const handleMessage = async (message, profile, messageSender) => {
       case "R-CT":
         messageSender
           .setMessage({
-            text: `If you want to be stay updated with the latest news and tweets about COVID-19, please check out this link for more info:  https://twitter.com/search?q=%23COVID&src=typed_query`
+            text: `If you want to be stay updated with the latest news and tweets about COVID-19, please check out this link for more info: https://bit.ly/2U3D9GV`
           })
           .send();
         break;
@@ -228,6 +228,10 @@ const handleMessage = async (message, profile, messageSender) => {
         break;
     }
   } else if (message.text) {
+    var messageLower = message.text.toLowerCase();
+    var arrThanks = ["salamat", "thank you", "thanks", "thanks", "good job", "i love you", "mahal kita"];
+
+
     if (message.text.startsWith("/")) {
       const searchTerm = message.text.split("/").join("");
       const stats = await api.casesByRegionApi(searchTerm);
@@ -245,12 +249,18 @@ const handleMessage = async (message, profile, messageSender) => {
             : `Sorry, we can't find your region.`
         })
         .send();
-    } else {
+    } 
+    else if(arrThanks.indexOf(messageLower) > -1) {
+      messageSender
+      .setMessage({
+        text:"No worries, you know I got your back right?"
+      })
+      .send();
+    }
+    else {
       messageSender
         .setMessage({
-          text: `Hey, ${
-            profile.first_name ? profile.first_name : ""
-          }. I can't quite seem to understand what you're trying to say. Please try to use another keyword so I can give you more information. https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public `
+          text: `Hey, I can't quite seem to understand what you're trying to say. Please try to use another keyword or select from menu options so I can give you more information. 😀 https://bit.ly/2woalA5`
         })
         .send();
     }
