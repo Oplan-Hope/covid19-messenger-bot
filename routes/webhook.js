@@ -9,7 +9,7 @@ const handlePostback = async (postback, profile, messageSender) => {
           quick_replies: [
             {
               content_type: "text",
-              title: "Philippines COVID Cases",
+              title: "PH COVID Cases",
               payload: "PHYES",
               image_url:"https://banner2.cleanpng.com/20180330/edq/kisspng-flag-of-the-philippines-flag-of-the-philippines-co-philippines-5abddb87b8f402.0425604815223919437576.jpg"
             },
@@ -68,7 +68,7 @@ const handlePostback = async (postback, profile, messageSender) => {
           quick_replies: [
             {
               content_type: "text",
-              title: "COVID19 cases around the world",
+              title: "COVID19 world case",
               payload: "CATW",
               image_url:
                 "https://i.pinimg.com/originals/dd/d5/0c/ddd50c7fd01a3a3927b932d8a5d4857c.png"
