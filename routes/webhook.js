@@ -262,7 +262,7 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
         .setMessage({
           text:
-            `Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!`
+            `Hello! These features are still under development. For the meantime, you can use our other features on menu option. Stay tuned! 🙂`
         })
         .send();
         break;
@@ -271,7 +271,7 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
         .setMessage({
           text:
-            `Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!`
+            `Hello! These features are still under development. For the meantime, you can use our other features on menu option. Stay tuned! 🙂`
         })
         .send();
         break;
