@@ -38,7 +38,7 @@ const handlePostback = async (postback, profile, messageSender) => {
       messageSender;
       messageSender
         .setMessage({
-          text: `Hi ${profile.first_name} what do you want to know right now? Cases around the world or Cases per location`,
+          text: `Hi ${profile.first_name} what do you want to know right now? (cases around the world, cases on specific location)`,
           quick_replies: [
             {
               content_type: "text",
@@ -62,7 +62,7 @@ const handlePostback = async (postback, profile, messageSender) => {
     case "RESOURCES":
       messageSender
         .setMessage({
-          text: `Hi ${profile.first_name} COVID is just a virus, you just need to learn new things about it.`,
+          text: `"Hey, buddy! This is just a test for us. For the meantime, here's the list of things we can do for you`,
           quick_replies: [
             {
               content_type: "text",
@@ -102,27 +102,29 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
           .setMessage({
             text:
-              `A pneumonia of unknown cause detected in Wuhan, China was first reported to the WHO Country Office in China on 31 December 2019 \n` + 
-              `WHO is working 24/7 to analyse data, provide advice, coordinate with partners, help countries prepare, increase supplies and manage expert networks.\n`+
-              `The outbreak was declared a Public Health Emergency of International Concern on 30 January 2020..\n`+
-              `The international community has asked for US$675 million to help protect states with weaker health systems as part of its Strategic Preparedness and Response Plan...\n`+
-              `The international community has asked for US$675 million to help protect states with weaker health systems as part of its Strategic Preparedness and Response Plan...\n`+
+              `A pneumonia of unknown cause detected in Wuhan, China was first reported to the WHO Country Office in China on 31 December 2019 \n` +
+              `WHO is working 24/7 to analyse data, provide advice, coordinate with partners, help countries prepare, increase supplies and manage expert networks.\n` +
+              `The outbreak was declared a Public Health Emergency of International Concern on 30 January 2020..\n` +
+              `The international community has asked for US$675 million to help protect states with weaker health systems as part of its Strategic Preparedness and Response Plan...\n` +
+              `The international community has asked for US$675 million to help protect states with weaker health systems as part of its Strategic Preparedness and Response Plan...\n` +
               `On 11 February 2020, WHO announced a name for the new coronavirus disease: COVID-19.`
-            })
+          })
           .send();
         break;
       case "R-WSD":
         messageSender
           .setMessage({
             text:
-              `Hey ${profile.first_name}, soon things will be brighter. Stay strong!\n ` +
+              `Hey ${
+                profile.first_name ? profile.first_name : "buddy!"
+              }, soon things will be brighter. Stay strong!\n ` +
               `-For the mean time, here's what you should do to help yourself stay awared.\n` +
-              `-Wash your hands frequently \n ` +
-              `-Maintain social distancing \n ` +
-              `-Avoid touching eyes, nose and mouth \n ` +
-              `-Practice respiratory hygiene \n ` +
-              `-If you have fever, cough and difficulty breathing, seek medical care early\n ` +
-              `-Stay informed and follow advice given by your healthcare provider\n ` +
+              `-Wash your hands frequently\n ` +
+              `-Maintain social distancing\n ` +
+              `-Avoid touching eyes, nose and mouth \n` +
+              `-Practice respiratory hygiene\n ` +
+              `-If you have fever, cough and difficulty breathing, seek medical care early\n` +
+              `-Stay informed and follow advice given by your healthcare provider\n` +
               `-Source: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public\n`
           })
           .send();
@@ -131,7 +133,7 @@ const handleMessage = async (message, profile, messageSender) => {
       case "R-CM":
         messageSender
           .setMessage({
-            text: `If you want to take a look a detail case of the COVID 19 here's the link of the map \n Map Link: https://the2019ncov.com/`
+            text: `If you want to take a look at the detailed case of the COVID 19 here's the link of the map:https://the2019ncov.com/`
           })
           .send();
         break;
@@ -139,7 +141,7 @@ const handleMessage = async (message, profile, messageSender) => {
       case "R-CT":
         messageSender
           .setMessage({
-            text: `Here's the tweets about #COVID19 https://twitter.com/search?q=%23COVID&src=typed_query`
+            text: `If you want to be stay updated with the latest news and tweets about COVID-19, please check out this link for more info:  https://twitter.com/search?q=%23COVID&src=typed_query`
           })
           .send();
         break;
@@ -158,7 +160,9 @@ const handleMessage = async (message, profile, messageSender) => {
       case "SCS":
         messageSender
           .setMessage({
-            text: `${profile.first_name} are you looking for the cases at the Philippines?`,
+            text: `${
+              profile.first_name ? profile.first_name : "buddy!"
+            } are you looking for the cases at the Philippines?`,
             quick_replies: [
               {
                 content_type: "text",
@@ -246,14 +250,18 @@ const handleMessage = async (message, profile, messageSender) => {
     } else {
       messageSender
         .setMessage({
-          text: `Sorry I don't understand you stay safe  ${
-            profile.first_name ? profile.first_name : "Little Warrior"
-          }. To know more about kindly COVID see this link https://www.youtube.com/watch?v=95eNDcugOYU`
+          text: `Hey, ${
+            profile.first_name ? profile.first_name : "buddy"
+          }. I can't quite seem to understand what you're trying to say. Please try to use another keyword so I can give you more information. https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public `
         })
         .send();
     }
   }
 };
+
+
+
+
 
 module.exports = {
   handlePostback,
