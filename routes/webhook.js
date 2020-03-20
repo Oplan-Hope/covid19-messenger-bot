@@ -5,7 +5,33 @@ const handlePostback = async (postback, profile, messageSender) => {
     case "GET_STARTED":
       messageSender
         .setMessage({
-          text: `Hi there! We're trying to keep you guys stay updated with what's the latest news/data about COVID-19. Just choose an action on the menu option.`
+          text: `Hi there! We're trying to keep you guys stay updated with what's the latest news/data about COVID-19. Just choose an action on the menu option.`,
+          quick_replies: [
+            {
+              content_type: "text",
+              title: "Philippines COVID Cases",
+              payload: "PHYES",
+              image_url:"https://banner2.cleanpng.com/20180330/edq/kisspng-flag-of-the-philippines-flag-of-the-philippines-co-philippines-5abddb87b8f402.0425604815223919437576.jpg"
+            },
+            {
+              content_type: "text",
+              title: "What should I do",
+              payload: "R-WSD",
+              image_url:"https://www.aftermath.com/wp-content/uploads/handwashing1.png"
+            },
+            {
+              content_type: "text",
+              title: "COVID19 MAP",
+              payload: "R-CM",
+              image_url:"https://img.favpng.com/14/3/15/google-maps-computer-icons-png-favpng-X2iMmWPs5Ckf4dkigJW7pFfGn.jpg"
+            },
+            {
+              content_type: "text",
+              title: "COVID19 Tweets",
+              payload: "R-CT",
+              image_url:"https://i.pinimg.com/originals/84/3d/d8/843dd8ca717a56cfc9a615df10d39944.png"
+            }
+          ]
         })
         .send();
       break;
@@ -208,7 +234,8 @@ const handleMessage = async (message, profile, messageSender) => {
               {
                 content_type: "text",
                 title: "Yes",
-                payload: "PHYES"
+                payload: "PHYES",
+                image_url:"https://banner2.cleanpng.com/20180330/edq/kisspng-flag-of-the-philippines-flag-of-the-philippines-co-philippines-5abddb87b8f402.0425604815223919437576.jpg"
               },
               {
                 content_type: "text",
