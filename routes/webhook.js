@@ -108,6 +108,14 @@ const handleMessage = async (message, profile, messageSender) => {
               `The international community has asked for US$675 million to help protect states with weaker health systems as part of its Strategic Preparedness and Response Plan...\n` +
               `The international community has asked for US$675 million to help protect states with weaker health systems as part of its Strategic Preparedness and Response Plan...\n` +
               `On 11 February 2020, WHO announced a name for the new coronavirus disease: COVID-19.`
+              ,
+              quick_replies: [
+                {
+                  content_type: "text",
+                  title: "Thank you!",
+                  payload: "TY"
+                },
+              ]
           })
           .send();
         break;
@@ -126,6 +134,14 @@ const handleMessage = async (message, profile, messageSender) => {
               `-If you have fever, cough and difficulty breathing, seek medical care early\n` +
               `-Stay informed and follow advice given by your healthcare provider\n` +
               `-Source: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public\n`
+              ,
+              quick_replies: [
+                {
+                  content_type: "text",
+                  title: "Thanks for caring!",
+                  payload: "TY"
+                },
+              ]
           })
           .send();
         break;
@@ -134,6 +150,14 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
           .setMessage({
             text: `If you want to take a look at the detailed mapping of COVID-19 cases, please check out this link for an interactive map: https://the2019ncov.com/`
+            ,
+            quick_replies: [
+              {
+                content_type: "text",
+                title: "Thanks for caring!",
+                payload: "TY"
+              },
+            ]
           })
           .send();
         break;
@@ -142,6 +166,14 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
           .setMessage({
             text: `If you want to be stay updated with the latest news and tweets about COVID-19, please check out this link for more info: https://bit.ly/2U3D9GV`
+            ,
+            quick_replies: [
+              {
+                content_type: "text",
+                title: "Thanks for caring!",
+                payload: "TY"
+              },
+            ]
           })
           .send();
         break;
@@ -153,7 +185,14 @@ const handleMessage = async (message, profile, messageSender) => {
               "The world currently have: \n" +
               ` - ${statsWorld.total_cases} reported cases \n` +
               ` - ${statsWorld.total_deaths} deaths \n` +
-              ` - ${statsWorld.total_recovered} recovered`
+              ` - ${statsWorld.total_recovered} recovered`,
+              quick_replies: [
+                {
+                  content_type: "text",
+                  title: "Thank you!",
+                  payload: "TY"
+                },
+              ]
           })
           .send();
         break;
@@ -267,6 +306,14 @@ const handleMessage = async (message, profile, messageSender) => {
               ` - ${stats.new_deaths} new cases \n` +
               `Stay safe ${profile.first_name || "my friend"}!`
             : `Sorry, we can't find your region.`
+            ,
+            quick_replies: [
+              {
+                content_type: "text",
+                title: "Thank you!",
+                payload: "TY"
+              },
+            ]
         })
         .send();
     } 
