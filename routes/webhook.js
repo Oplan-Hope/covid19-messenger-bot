@@ -5,7 +5,7 @@ const handlePostback = async (postback, profile, messageSender) => {
     case "GET_STARTED":
       messageSender
         .setMessage({
-          text: `Hello ${profile.first_name || "my friend"}! How can I help?`
+          text: `Hello ${profile.first_name ? profile.first_name : ''}! How can I help?`
         })
         .send();
       break;
@@ -13,7 +13,7 @@ const handlePostback = async (postback, profile, messageSender) => {
     case "QUICK_UPDATE":
       messageSender
         .setMessage({
-          text: `Hi ${profile.first_name} how can I help you?`,
+          text: `Hi ${profile.first_name ? profile.first_name : ''} how can I help you?`,
           quick_replies: [
             {
               content_type: "text",
@@ -230,7 +230,7 @@ const handleMessage = async (message, profile, messageSender) => {
                 ` - ${statsPH.total_recovered} recovered \n` +
                 ` - ${statsPH.new_cases} new cases \n` +
                 ` - ${statsPH.new_deaths} new cases \n` +
-                `Stay safe ${profile.first_name || "my friend"}!`
+                `Stay safe ${profile.first_name || ""}!`
               : `Sorry, we can't find your region.`,
               quick_replies: [
                 {
@@ -280,7 +280,7 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
           .setMessage({
             text: `Sorry I don't understand you stay safe  ${
-              profile.first_name ? profile.first_name : "Little Warrior"
+              profile.first_name ? profile.first_name : ""
             }. To know more about kindly COVID see this link https://www.youtube.com/watch?v=95eNDcugOYU`
           })
           .send();
@@ -304,7 +304,7 @@ const handleMessage = async (message, profile, messageSender) => {
               ` - ${stats.total_recovered} recovered \n` +
               ` - ${stats.new_cases} new cases \n` +
               ` - ${stats.new_deaths} new cases \n` +
-              `Stay safe ${profile.first_name || "my friend"}!`
+              `Stay safe ${profile.first_name || ""}!`
             : `Sorry, we can't find your region.`
             ,
             quick_replies: [
