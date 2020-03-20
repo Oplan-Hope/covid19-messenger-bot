@@ -226,10 +226,9 @@ const handleMessage = async (message, profile, messageSender) => {
             text: statsPH
               ? ` ${phname} currently have: \n` +
                 ` - ${statsPH.cases} reported cases \n` +
-                ` - ${statsPH.deaths} deaths \n` +
-                ` - ${statsPH.total_recovered} recovered \n` +
+                ` - ${statsPH.deaths} total deaths \n` +
+                ` - ${statsPH.total_recovered} total recovered \n` +
                 ` - ${statsPH.new_cases} new cases \n` +
-                ` - ${statsPH.new_deaths} new cases \n` +
                 `Stay safe ${profile.first_name || ""}!`
               : `Sorry, we can't find your region.`,
               quick_replies: [
@@ -300,10 +299,9 @@ const handleMessage = async (message, profile, messageSender) => {
             ? stats.country_name +
               " currently have: \n" +
               ` - ${stats.cases} reported cases \n` +
-              ` - ${stats.deaths} deaths \n` +
-              ` - ${stats.total_recovered} recovered \n` +
+              ` - ${stats.deaths} total deaths \n` +
+              ` - ${stats.total_recovered} total recovered \n` +
               ` - ${stats.new_cases} new cases \n` +
-              ` - ${stats.new_deaths} new cases \n` +
               `Stay safe ${profile.first_name || ""}!`
             : `Sorry, we can't find your region.`
             ,
