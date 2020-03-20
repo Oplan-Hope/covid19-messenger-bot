@@ -68,14 +68,14 @@ const handlePostback = async (postback, profile, messageSender) => {
           quick_replies: [
             {
               content_type: "text",
-              title: "COVID19 world case",
+              title: "COVID world cases",
               payload: "CATW",
               image_url:
                 "https://i.pinimg.com/originals/dd/d5/0c/ddd50c7fd01a3a3927b932d8a5d4857c.png"
             },
             {
               content_type: "text",
-              title: "COVID19 cases per location",
+              title: "COVID cases per location",
               payload: "SCS",
               image_url:
                 "https://png.pngtree.com/element_our/png_detail/20181206/find-vector-icon-png_260845.jpg"
