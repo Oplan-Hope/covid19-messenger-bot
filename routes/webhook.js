@@ -192,10 +192,24 @@ const handleMessage = async (message, profile, messageSender) => {
                 ` - ${statsPH.new_cases} new cases \n` +
                 ` - ${statsPH.new_deaths} new cases \n` +
                 `Stay safe ${profile.first_name || "my friend"}!`
-              : `Sorry, we can't find your region.`
+              : `Sorry, we can't find your region.`,
+              quick_replies: [
+                {
+                  content_type: "text",
+                  title: "Thank you!",
+                  payload: "TY"
+                },
+              ]
           })
           .send();
         break;
+      case "TY": 
+      messageSender
+      .setMessage({
+        text:"No worries, you know I got your back right?"
+      })
+      .send();
+      break;
       case "OTLC":
         messageSender
           .setMessage({
@@ -206,15 +220,21 @@ const handleMessage = async (message, profile, messageSender) => {
         break;
 
       case "HNM":
-        console.log("Hospital Near Me");
+        messageSender
+        .setMessage({
+          text:
+            `Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!`
+        })
+        .send();
         break;
 
       case "CNM":
-        messageSender.setMessage({
-          text: "Your Location",
-          quick_replies: [{ content_type: "location" }]
-        });
-        console.log("Checkpoint Near me");
+        messageSender
+        .setMessage({
+          text:
+            `Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!`
+        })
+        .send();
         break;
 
       default:
