@@ -2,7 +2,12 @@ const statsApi = require('../api/stats')
 const userLocationApi = require('../api/user-location')
 const testingCentersApi = require('../api/testing-centers')
 
+const SETUP_LOCATION_GUIDE = 'https://www.facebook.com/help/messenger-app/583011145134913'
+const UNDER_DEVELOPMENT = "Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!"
+
 const handlePostback = async (postback, profile, messageSender) => {
+  const lastLocation = await userLocationApi.latest(profile.id)
+
   switch (postback.payload) {
     case "GET_STARTED":
       messageSender
@@ -39,27 +44,35 @@ const handlePostback = async (postback, profile, messageSender) => {
       break;
 
     case "QUICK_UPDATE":
-      messageSender
-        .setMessage({
-          text: `Hello! These features needs your current location.`,
-          quick_replies: [
-            {
-              content_type: "text",
-              title: "Nearest testing centers",
-              payload: "HNM",
-              image_url:
-                "https://cdn3.iconfinder.com/data/icons/small-color-v11/512/blood_drop_hospital_infusion_medical_transfusion-512.png"
-            },
-            {
-              content_type: "text",
-              title: "Nearest checkpoints",
-              payload: "CNM",
-              image_url:
-                "https://image.shutterstock.com/image-vector/road-closed-street-barrier-on-260nw-1212098479.jpg"
-            }
-          ]
-        })
-        .send();
+      if (lastLocation) {
+        messageSender
+          .setMessage({
+            text: 'Hello, you can check the nearest testing centers, checkpoints & much more!',
+            quick_replies: [
+              {
+                content_type: "text",
+                title: "Nearest testing centers",
+                payload: "HNM",
+                image_url:
+                  "https://cdn3.iconfinder.com/data/icons/small-color-v11/512/blood_drop_hospital_infusion_medical_transfusion-512.png"
+              },
+              {
+                content_type: "text",
+                title: "Nearest checkpoints",
+                payload: "CNM",
+                image_url:
+                  "https://image.shutterstock.com/image-vector/road-closed-street-barrier-on-260nw-1212098479.jpg"
+              }
+            ]
+          })
+          .send();
+      } else {
+        messageSender
+          .setMessage({ 
+            text: 'Hello! These features needs your current location: ' + SETUP_LOCATION_GUIDE 
+          })
+          .send()
+      }
       break;
 
     case "SEARCH":
@@ -124,9 +137,7 @@ const handlePostback = async (postback, profile, messageSender) => {
 
 const handleMessage = async (message, profile, messageSender) => {
   if (message.quick_reply) {
-    const userLocations = await userLocationApi.list(profile.id)
-    const lastLocation = userLocations.length > 0 ? userLocations[0] : null
-
+    const lastLocation = await userLocationApi.latest(profile.id)
     const { payload } = message.quick_reply;
 
     switch (payload) {
@@ -285,7 +296,7 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
           .setMessage({
             text:
-              'In what country/region are you loacated? Just put a "/" first \n e.g. /China'
+              'In what country/region are you located? Just put a "/" first \n e.g. /China'
           })
           .send();
         break;
@@ -313,12 +324,7 @@ const handleMessage = async (message, profile, messageSender) => {
         break;
 
       case "CNM":
-        messageSender
-          .setMessage({
-            text:
-              `Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!`
-          })
-          .send();
+        messageSender.setMessage({ text: UNDER_DEVELOPMENT }).send();
         break;
 
       case 'HNM_LOCATION_CONFIRMED':
@@ -346,16 +352,28 @@ const handleMessage = async (message, profile, messageSender) => {
                       `${testingCenter.verified ? '✅ Verified by WHO \n\n' : ''}`
                     ))
                     .join('')
-                  }`
+                  }`,
+                quick_replies: [
+                  {
+                    content_type: 'text',
+                    title: 'Thank you!',
+                    payload: 'TY'
+                  },
+                ]
               })
               .send()
+          } else {
+            messageSender
+              .setMessage({
+                text: 'Whooops? You need to tell us your location: ' + SETUP_LOCATION_GUIDE
+              })
           }
         break;
 
       case 'HNM_LOCATION_CANCELLED':
           messageSender
             .setMessage({
-              text: 'Then tell us your current location and come back again: https://www.facebook.com/help/messenger-app/583011145134913'
+              text: 'Then tell us your current location and come back again: ' + SETUP_LOCATION_GUIDE
             })
             .send()
       break;

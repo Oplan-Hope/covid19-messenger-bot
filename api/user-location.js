@@ -24,21 +24,22 @@ const store = async attributes => {
 }
 
 /**
- * List the latest locations recorded from the user.
+ * Give the latest locations recorded from the user.
  * 
  * @param {string} userId
  * @param {number} limit
- * @return {Promise<array<object>|void>}
+ * @return {Promise<object|null|void>}
  */
-const list = async (userId, limit = null) => {
+const latest = async (userId, limit = null) => {
   try {
     const res = await fetch(`${process.env.API_URL}/location/${userId}?limit=${limit}`)
     if (res.status === 200) {
-      return await res.json()
+      const locations = await res.json()
+      return locations.length > 0 ? locations[0] : null
     }
   } catch (error) {
     console.error('There is an error: ', error)
   }
 }
 
-module.exports = { store, list }
+module.exports = { store, latest }
