@@ -64,7 +64,7 @@ const handlePostback = async (postback, profile, messageSender) => {
       messageSender;
       messageSender
         .setMessage({
-          text: `Hey, as I can see, you are curious about how many cases of COVID-19 we have right now. Which you wanna check?`,
+          text: `Hey,As I can see, you are curious about the number of confirmed COVID-19 cases we have right now. Which you wanna check?`,
           quick_replies: [
             {
               content_type: "text",
@@ -210,7 +210,7 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
           .setMessage({
             text:
-              "The world currently have: \n" +
+              "The world currently has: \n" +
               ` - ${statsWorld.total_cases} reported cases \n` +
               ` - ${statsWorld.total_deaths} deaths \n` +
               ` - ${statsWorld.total_recovered} recovered`,
@@ -227,7 +227,7 @@ const handleMessage = async (message, profile, messageSender) => {
       case "SCS":
         messageSender
           .setMessage({
-            text: `Uhm.. Are you looking for number of cases right now here in the Philippines?`,
+            text: `Uhm.. Are you looking for the number of cases right now here in the Philippines?`,
             quick_replies: [
               {
                 content_type: "text",
@@ -253,7 +253,7 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
           .setMessage({
             text: statsPH
-              ? ` ${phname} currently have: \n` +
+              ? ` ${phname} currently has: \n` +
                 ` - ${statsPH.cases} reported cases \n` +
                 ` - ${statsPH.deaths} total deaths \n` +
                 ` - ${statsPH.total_recovered} total recovered \n` +
@@ -281,7 +281,7 @@ const handleMessage = async (message, profile, messageSender) => {
         messageSender
           .setMessage({
             text:
-              'What country or region you are located? Just put a "/" first \n e.g. /China'
+              'In what country/region are you loacated? Just put a "/" first \n e.g. /China'
           })
           .send();
         break;
