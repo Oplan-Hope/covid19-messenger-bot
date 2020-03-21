@@ -1,4 +1,4 @@
-const api = require("../utils/api");
+const statsApi = require('../api/stats');
 
 const handlePostback = async (postback, profile, messageSender) => {
   switch (postback.payload) {
@@ -125,8 +125,6 @@ const handleMessage = async (message, profile, messageSender) => {
   if (message.quick_reply) {
     const { payload } = message.quick_reply;
 
-    console.log(payload);
-
     switch (payload) {
       case "R-WIC":
         messageSender
@@ -208,7 +206,7 @@ const handleMessage = async (message, profile, messageSender) => {
           .send();
         break;
       case "CATW":
-        const statsWorld = await api.worldTotalApi();
+        const statsWorld = await statsApi.worldTotal();
         messageSender
           .setMessage({
             text:
@@ -251,7 +249,7 @@ const handleMessage = async (message, profile, messageSender) => {
 
       case "PHYES":
         const phname = "Philippines";
-        const statsPH = await api.casesByRegionApi(phname);
+        const statsPH = await statsApi.casesByRegion(phname);
         messageSender
           .setMessage({
             text: statsPH
@@ -316,14 +314,20 @@ const handleMessage = async (message, profile, messageSender) => {
           .send();
         break;
     }
+  } else if (message.attachments) {
+    for (attachment of message.attachments) {
+      if (attachment.type === 'location') {
+        // attachment.payload.coordinates
+
+      }
+    }
   } else if (message.text) {
     var messageLower = message.text.toLowerCase();
     var arrThanks = ["salamat", "thank you", "thanks", "thanks", "good job", "i love you", "mahal kita"];
 
-
     if (message.text.startsWith("/")) {
       const searchTerm = message.text.split("/").join("");
-      const stats = await api.casesByRegionApi(searchTerm);
+      const stats = await statsApi.casesByRegion(searchTerm);
       messageSender
         .setMessage({
           text: stats
@@ -363,11 +367,7 @@ const handleMessage = async (message, profile, messageSender) => {
   }
 };
 
-
-
-
-
 module.exports = {
   handlePostback,
-  handleMessage
+  handleMessage,
 };
