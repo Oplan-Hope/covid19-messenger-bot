@@ -64,7 +64,7 @@ const handlePostback = async (postback, profile, messageSender) => {
       messageSender;
       messageSender
         .setMessage({
-          text: `Hey,As I can see, you are curious about the number of confirmed COVID-19 cases we have right now. Which you wanna check?`,
+          text: `Hey, I can see that you are curious about the total number of confirmed COVID-19 cases we have right now. Which do you want to check?`,
           quick_replies: [
             {
               content_type: "text",
@@ -273,7 +273,7 @@ const handleMessage = async (message, profile, messageSender) => {
       case "TY": 
       messageSender
       .setMessage({
-        text:"No worries, you know I got your back right?"
+        text:"No worries! Please be safe and stay at home!"
       })
       .send();
       break;
@@ -353,7 +353,7 @@ const handleMessage = async (message, profile, messageSender) => {
     else if(arrThanks.indexOf(messageLower) > -1) {
       messageSender
       .setMessage({
-        text:"No worries, you know I got your back right?"
+        text:"No worries! Please be safe and stay at home!"
       })
       .send();
     }
