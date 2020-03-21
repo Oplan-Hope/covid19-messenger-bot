@@ -229,7 +229,7 @@ const handleMessage = async (message, profile, messageSender) => {
       case "SCS":
         messageSender
           .setMessage({
-            text: `"Uhm.. Are you looking for number of cases right now here in the Philippines?"`,
+            text: `Uhm.. Are you looking for number of cases right now here in the Philippines?`,
             quick_replies: [
               {
                 content_type: "text",
