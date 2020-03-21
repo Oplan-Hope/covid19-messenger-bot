@@ -1,15 +1,13 @@
-const casesByRegion = async searchTerm => {
+const casesByRegion = async (searchTerm) => {
   try {
     const res = await fetch(process.env.RAPIDAPI_URL + '/cases_by_country.php', {
       headers: {
-        'X-RapidAPI-Key': process.env.RAPIDAPI_KEY
-      }
+        'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+      },
     })
 
     const stats = await res.json()
-    return await stats.countries_stat.find(
-      s => s.country_name.match(new RegExp(searchTerm, 'i'))
-    )
+    return await stats.countries_stat.find((s) => s.country_name.match(new RegExp(searchTerm, 'i')))
   } catch (error) {
     console.error('There is an error: ', error)
   }
@@ -19,8 +17,8 @@ const worldTotal = async () => {
   try {
     const res = await fetch(process.env.RAPIDAPI_URL + '/worldstat.php', {
       headers: {
-        'X-RapidAPI-Key': process.env.RAPIDAPI_KEY
-      }
+        'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+      },
     })
 
     const stats = await res.json()
@@ -32,5 +30,5 @@ const worldTotal = async () => {
 
 module.exports = {
   casesByRegion,
-  worldTotal
+  worldTotal,
 }

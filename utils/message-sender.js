@@ -1,7 +1,7 @@
 class MessageSender {
   /**
    * Create a new message sender instance.
-   * 
+   *
    * @param {number} recepientId The user's page scoped ID
    * @returns {void}
    */
@@ -11,7 +11,7 @@ class MessageSender {
 
   /**
    * Set the current action.
-   * 
+   *
    * @param {string} action It can be: mark_seen, typing_on, typing_off
    * @returns {MessageSender}
    */
@@ -22,7 +22,7 @@ class MessageSender {
 
   /**
    * Set the current message.
-   * 
+   *
    * @param {object} message
    * @returns {MessageSender}
    */
@@ -33,7 +33,7 @@ class MessageSender {
 
   /**
    * Sends the message to the recipient.
-   * 
+   *
    * @returns {Promise<void>}
    */
   async send() {
@@ -46,8 +46,8 @@ class MessageSender {
         body: JSON.stringify({
           recipient: { id: this.recepientId },
           message: this.message,
-          sender_action: this.action
-        })
+          sender_action: this.action,
+        }),
       })
     } catch (error) {
       console.error(error)

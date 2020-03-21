@@ -1,18 +1,18 @@
 /**
  * Store a new user location.
- * 
+ *
  * @param {object} attributes
  * @return {Promise<object|void>}
  */
-const store = async attributes => {
+const store = async (attributes) => {
   try {
     const res = await fetch(process.env.API_URL + '/location', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Hope-Key': process.env.API_TOKEN
+        'X-Hope-Key': process.env.API_TOKEN,
       },
-      body: JSON.stringify(attributes)
+      body: JSON.stringify(attributes),
     })
 
     if (res.status === 201) {
@@ -25,7 +25,7 @@ const store = async attributes => {
 
 /**
  * Give the latest locations recorded from the user.
- * 
+ *
  * @param {string} userId
  * @param {number} limit
  * @return {Promise<object|null|void>}

@@ -74,20 +74,21 @@ const TESTING_CENTERS = [
   },
 ]
 
-const nearest = coordinates => {
-  const testingCenters = geolib
-    .orderByDistance(coordinates, TESTING_CENTERS)
-    .splice(0, 3)
-    
-  return testingCenters.map(testingCenter => ({
+const nearest = (coordinates) => {
+  const testingCenters = geolib.orderByDistance(coordinates, TESTING_CENTERS).splice(0, 3)
+
+  return testingCenters.map((testingCenter) => ({
     ...testingCenter,
-    distance: geolib.convertDistance(geolib.getDistance(coordinates, {
-      latitude: testingCenter.latitude,
-      longitude: testingCenter.longitude,
-    }), 'km')
+    distance: geolib.convertDistance(
+      geolib.getDistance(coordinates, {
+        latitude: testingCenter.latitude,
+        longitude: testingCenter.longitude,
+      }),
+      'km'
+    ),
   }))
 }
 
 module.exports = {
-  nearest
+  nearest,
 }

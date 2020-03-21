@@ -7,12 +7,12 @@
  * @param {Array<string>} fields List of fields that will compose the profile
  */
 const retrieveProfile = async (psid, fields) => {
-    const pageToken = encodeURIComponent(process.env.FB_PAGE_TOKEN || '')
-    const qs = `fields=${fields.join(',')}&access_token=${pageToken}`
+  const pageToken = encodeURIComponent(process.env.FB_PAGE_TOKEN || '')
+  const qs = `fields=${fields.join(',')}&access_token=${pageToken}`
 
-    const res = await fetch(`https://graph.facebook.com/${psid}?${qs}`)
-    const data = await res.json()
-    return data
+  const res = await fetch(`https://graph.facebook.com/${psid}?${qs}`)
+  const data = await res.json()
+  return data
 }
 
 module.exports = retrieveProfile
