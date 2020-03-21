@@ -1,4 +1,6 @@
-const statsApi = require('../api/stats');
+const statsApi = require('../api/stats')
+const userLocationApi = require('../api/user-location')
+const testingCentersApi = require('../api/testing-centers')
 
 const handlePostback = async (postback, profile, messageSender) => {
   switch (postback.payload) {
@@ -39,18 +41,18 @@ const handlePostback = async (postback, profile, messageSender) => {
     case "QUICK_UPDATE":
       messageSender
         .setMessage({
-          text: `Hello! These features are still under development. For the meantime, you can use our other features on menu option. Stay tuned! 🙂`,
+          text: `Hello! These features needs your current location.`,
           quick_replies: [
             {
               content_type: "text",
-              title: "Hospital near me",
+              title: "Nearest testing centers",
               payload: "HNM",
               image_url:
                 "https://cdn3.iconfinder.com/data/icons/small-color-v11/512/blood_drop_hospital_infusion_medical_transfusion-512.png"
             },
             {
               content_type: "text",
-              title: "Checkpoints near me",
+              title: "Nearest checkpoints",
               payload: "CNM",
               image_url:
                 "https://image.shutterstock.com/image-vector/road-closed-street-barrier-on-260nw-1212098479.jpg"
@@ -61,7 +63,6 @@ const handlePostback = async (postback, profile, messageSender) => {
       break;
 
     case "SEARCH":
-      messageSender;
       messageSender
         .setMessage({
           text: `Hey, I can see that you are curious about the total number of confirmed COVID-19 cases we have right now. Which do you want to check?`,
@@ -119,10 +120,13 @@ const handlePostback = async (postback, profile, messageSender) => {
         .send();
       break;
   }
-};
+}
 
 const handleMessage = async (message, profile, messageSender) => {
   if (message.quick_reply) {
+    const userLocations = await userLocationApi.list(profile.id)
+    const lastLocation = userLocations.length > 0 ? userLocations[0] : null
+
     const { payload } = message.quick_reply;
 
     switch (payload) {
@@ -154,14 +158,14 @@ const handleMessage = async (message, profile, messageSender) => {
               `Hey ${
                 profile.first_name ? profile.first_name : ""
               }, soon things will be brighter. Stay strong!\n ` +
-              `-For the mean time, here's what you should do to help yourself stay awared.\n` +
-              `-Wash your hands frequently\n ` +
-              `-Maintain social distancing\n ` +
-              `-Avoid touching eyes, nose and mouth \n` +
-              `-Practice respiratory hygiene\n ` +
-              `-If you have fever, cough and difficulty breathing, seek medical care early\n` +
-              `-Stay informed and follow advice given by your healthcare provider\n` +
-              `-Source: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public\n`
+              `- For the mean time, here's what you should do to help yourself stay awared.\n` +
+              `- Wash your hands frequently\n ` +
+              `- Maintain social distancing\n ` +
+              `- Avoid touching eyes, nose and mouth\n` +
+              `- Practice respiratory hygiene\n ` +
+              `- If you have fever, cough and difficulty breathing, seek medical care early\n` +
+              `- Stay informed and follow advice given by your healthcare provider\n` +
+              `- Source: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public\n`
               ,
               quick_replies: [
                 {
@@ -287,22 +291,74 @@ const handleMessage = async (message, profile, messageSender) => {
         break;
 
       case "HNM":
-        messageSender
-        .setMessage({
-          text:
-            `Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!`
-        })
-        .send();
+        if (lastLocation) {
+          messageSender
+            .setMessage({
+              text: `Are you currently located at: ${lastLocation.name}?`,
+              quick_replies: [
+                {
+                  content_type: 'text',
+                  title: 'Yes',
+                  payload: 'HNM_LOCATION_CONFIRMED'
+                },
+                {
+                  content_type: 'text',
+                  title: 'No',
+                  payload: 'HNM_LOCATION_CANCELLED'
+                },
+              ]
+            })
+            .send()
+        }
         break;
 
       case "CNM":
         messageSender
-        .setMessage({
-          text:
-            `Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!`
-        })
-        .send();
+          .setMessage({
+            text:
+              `Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!`
+          })
+          .send();
         break;
+
+      case 'HNM_LOCATION_CONFIRMED':
+          if (lastLocation) {
+            const testingCenters = testingCentersApi.nearest({
+              latitude: lastLocation.latitude,
+              longitude: lastLocation.longitude,
+            })
+
+            const distanceIcon = i => {
+              if (i === 0) return '🚕'
+              if (i === 1) return '🚌'
+              if (i === 2) return '🚆'
+              else return '🚀'
+            }
+
+            messageSender
+              .setMessage({
+                text: 
+                  'Nearest Testing Centers: \n\n' +
+                  `${testingCenters
+                    .map((testingCenter, i) => (
+                      `${i + 1}. ${testingCenter.name}\n` +
+                      `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n` +
+                      `${testingCenter.verified ? '✅ Verified by WHO \n\n' : ''}`
+                    ))
+                    .join('')
+                  }`
+              })
+              .send()
+          }
+        break;
+
+      case 'HNM_LOCATION_CANCELLED':
+          messageSender
+            .setMessage({
+              text: 'Then tell us your current location and come back again: https://www.facebook.com/help/messenger-app/583011145134913'
+            })
+            .send()
+      break;
 
       default:
         messageSender
@@ -317,8 +373,25 @@ const handleMessage = async (message, profile, messageSender) => {
   } else if (message.attachments) {
     for (attachment of message.attachments) {
       if (attachment.type === 'location') {
-        // attachment.payload.coordinates
+        for (attachment of message.attachments) {
+          if (attachment.type === 'location') {
+            const { payload = {} } = attachment
 
+            // We will try to get the name of the location from the attachment,
+            // but if it gives a generic location name, we will fetch the legit
+            // location name using the coordinates.
+            const name = attachment.title.match(/location/i) 
+              ? 'generic' // TODO: We must identify the name of the location.
+              : attachment.title
+
+            userLocationApi.store({
+              userId: profile.id,
+              name,
+              latitude: payload.coordinates.lat,
+              longitude: payload.coordinates.long,
+            })
+          }
+        }
       }
     }
   } else if (message.text) {
@@ -365,9 +438,9 @@ const handleMessage = async (message, profile, messageSender) => {
         .send();
     }
   }
-};
+}
 
 module.exports = {
   handlePostback,
   handleMessage,
-};
+}

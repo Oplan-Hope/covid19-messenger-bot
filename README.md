@@ -12,7 +12,7 @@ yarn install
 cp .env.example .env
 
 # Finally, start the development server:
-yarn start
+yarn dev-watch
 ```
 
 ## Resources
