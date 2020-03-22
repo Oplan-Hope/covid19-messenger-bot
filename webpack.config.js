@@ -1,5 +1,5 @@
 const path = require('path')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const crypto = require('crypto')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 module.exports = () => {
@@ -15,8 +15,8 @@ module.exports = () => {
     output: {
       path: path.resolve(__dirname, './public'),
       publicPath: '/',
-      filename: 'js/[name].bundle.[contenthash].js',
-      chunkFilename: 'js/[name].bundle.[contenthash].js',
+      filename: 'js/[name].js',
+      chunkFilename: 'js/[name].js',
     },
 
     resolve: {
@@ -45,10 +45,12 @@ module.exports = () => {
     },
 
     plugins: [
-      new CleanWebpackPlugin({ 
-        cleanOnceBeforeBuildPatterns: ['js', 'css']
-      }),
-      new ManifestPlugin()
+      new ManifestPlugin({ 
+        map: file => ({
+          ...file,
+          path: file.path + '?id=' + crypto.randomBytes(8).toString('hex')
+        })
+      })
     ],
   }
 

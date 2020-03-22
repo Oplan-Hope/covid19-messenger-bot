@@ -1,0 +1,38 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  background-color: #fafafa;
+  padding: 25px;
+  color: #b8b7b7;
+}
+
+.body {
+  overflow: scroll;
+  margin-bottom: 150px;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background-color: #ffffff;
+  box-shadow: 0px 0 12px #0000001a;
+  padding: 14px 28px;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  padding: 0 10px;
+}
+
+.tab {
+}

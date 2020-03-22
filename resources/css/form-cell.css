@@ -1,0 +1,37 @@
+.form-cell {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 25px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.form-cell.selected {
+  background-color: #f1f1f1;
+}
+
+.form-cell .radio {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #b8b7b7;
+}
+
+.form-cell .radio.selected div {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background-color: #5680dc;
+  border-radius: 50%;
+}
+
+.form-cell .selector {
+  margin-right: 15px;
+}
+
+.form-cell .icon {
+  margin-left: auto;
+}
