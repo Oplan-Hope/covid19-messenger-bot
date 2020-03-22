@@ -1,5 +1,7 @@
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
+const favicon = require('serve-favicon')
 
 require('dotenv').config()
 require('isomorphic-unfetch')
@@ -12,7 +14,14 @@ const app = express()
 /**
  * Configurations
  */
+app.set('view engine', 'ejs')
 app.set('port', process.env.PORT || 8000)
+
+/**
+ * Static assets
+ */
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 /**
  * Parsers

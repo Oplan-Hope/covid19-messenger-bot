@@ -7,7 +7,7 @@
   "author": "Hope",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write \"{api,routes,utils}/**/*.{js,json}\"",
+    "format": "prettier --write \"{api,controllers,routes,utils}/**/*.{js,json}\"",
     "start": "cross-env NODE_PATH=./ node server.js",
     "dev-watch": "cross-env NODE_PATH=./ nodemon server.js"
   },
@@ -15,9 +15,11 @@
     "body-parser": "^1.19.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
     "geolib": "^3.2.1",
-    "isomorphic-unfetch": "^3.0.0"
+    "isomorphic-unfetch": "^3.0.0",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "prettier": "^2.0.0"
