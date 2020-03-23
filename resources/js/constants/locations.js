@@ -33,5 +33,5 @@ export default [
     key: 'FACE_MASKS',
     label: 'Face Masks',
     icon: '😷',
-  }
+  },
 ]

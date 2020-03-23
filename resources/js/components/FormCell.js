@@ -3,14 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import 'styles/form-cell.css'
 
-export default function FormCell({ 
-  variant = 'radio', 
-  selected = false, 
-  icon, 
-  children, 
-  className,
-  ...props 
-}) {
+export default function FormCell({ variant = 'radio', selected = false, icon, children, className, ...props }) {
   return (
     <div className={cx('form-cell', className, { selected })} {...props}>
       <div className={cx('selector', variant, { selected })}>

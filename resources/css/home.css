@@ -25,14 +25,3 @@
   box-shadow: 0px 0 12px #0000001a;
   padding: 14px 28px;
 }
-
-.tabs {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
-  padding: 0 10px;
-}
-
-.tab {
-}

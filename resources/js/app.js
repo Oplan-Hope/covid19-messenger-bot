@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import 'isomorphic-unfetch'
 import Home from '@/components/Pages/Home'
 import 'styles/app.css'
 

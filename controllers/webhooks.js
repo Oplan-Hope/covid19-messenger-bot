@@ -7,8 +7,6 @@ const UNDER_DEVELOPMENT =
   "Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!"
 
 const handlePostback = async (postback, profile, messageSender) => {
-  const lastLocation = await userLocationApi.latest(profile.id)
-
   switch (postback.payload) {
     case 'GET_STARTED':
       messageSender
@@ -47,6 +45,8 @@ const handlePostback = async (postback, profile, messageSender) => {
       break
 
     case 'QUICK_UPDATE':
+      const lastLocation = await userLocationApi.latest(profile.id)
+
       if (lastLocation) {
         messageSender
           .setMessage({
@@ -359,9 +359,11 @@ const handleMessage = async (message, profile, messageSender) => {
             })
             .send()
         } else {
-          messageSender.setMessage({
-            text: 'Whooops? You need to tell us your location: ' + SETUP_LOCATION_GUIDE,
-          })
+          messageSender
+            .setMessage({
+              text: 'Whooops? You need to tell us your location: ' + SETUP_LOCATION_GUIDE,
+            })
+            .send()
         }
         break
 
@@ -438,6 +440,28 @@ const handleMessage = async (message, profile, messageSender) => {
       messageSender
         .setMessage({
           text: 'No worries! Please be safe and stay at home!',
+        })
+        .send()
+    } else if (message.text === 'QA') {
+      // TODO: This must be placed somewhere else.
+      messageSender
+        .setMessage({
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'button',
+              text: 'You are viewing a hidden feature, good luck!',
+              buttons: [
+                {
+                  type: 'web_url',
+                  title: 'Quick Access',
+                  url: process.env.APP_URL,
+                  webview_height_ratio: 'tall',
+                  messenger_extensions: true,
+                },
+              ],
+            },
+          },
         })
         .send()
     } else {

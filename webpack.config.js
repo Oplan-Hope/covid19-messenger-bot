@@ -1,6 +1,8 @@
 const path = require('path')
 const crypto = require('crypto')
 const ManifestPlugin = require('webpack-manifest-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 module.exports = () => {
   const inProduction = process.env.NODE_ENV === 'production'
@@ -30,7 +32,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.css$/i,
-          use: ['style-loader', 'css-loader'],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: /\.(js|jsx)$/,
@@ -45,6 +47,9 @@ module.exports = () => {
     },
 
     plugins: [
+      new MiniCssExtractPlugin({ 
+        filename: 'css/[name].css'
+      }),
       new ManifestPlugin({ 
         map: file => ({
           ...file,
@@ -52,6 +57,10 @@ module.exports = () => {
         })
       })
     ],
+  }
+
+  if (inProduction) {
+    config.plugins.push(new OptimizeCSSAssetsPlugin())
   }
 
   return config
