@@ -9,14 +9,6 @@
   <body>
     <div id="root"></div>
     <script>
-      (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'Messenger'));
-
       window.extAsyncInit = function () {
         MessengerExtensions.askPermission(
           function(permission_response) {
@@ -26,10 +18,12 @@
 
             if (isGranted) {
               // User has granted user_profile permission
+              console.log('Yahoo!')
             }
             
           }, function(errorCode, errorMessage) {
             // Error occurred
+            console.log(errorCode)
           },
           "user_profile"
         );
@@ -45,6 +39,14 @@
       }
     
       window.appUrl = '<%= appUrl %>'
+
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'Messenger'));
     </script>
   </body>
 </html>
