@@ -18,14 +18,30 @@
       }(document, 'script', 'Messenger'));
 
       window.extAsyncInit = function () {
+        MessengerExtensions.askPermission(
+          function(permission_response) {
+            // Person grants or rejects the asked permission.
+            let permissions = permission_response.permissions; // list of all permissions granted
+            let isGranted = permission_response.isGranted;
+
+            if (isGranted) {
+              // User has granted user_profile permission
+            }
+            
+          }, function(errorCode, errorMessage) {
+            // Error occurred
+          },
+          "user_profile"
+        );
+
         MessengerExtensions.getContext('<%= fbAppId %>', 
-          function success (ctx) {
-            window.threadContext = ctx
+          function success (thread_context) {
+            window.threadContext = thread_context
           },
           function error (error) {
             console.log(error)
           }
-        )
+        );
       }
     
       window.appUrl = '<%= appUrl %>'
