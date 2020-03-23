@@ -6,8 +6,9 @@ const favicon = require('serve-favicon')
 require('dotenv').config()
 require('isomorphic-unfetch')
 
-const index = require('./routes/index')
-const webhooks = require('./routes/webhook')
+const index = require('routes/index')
+const locations = require('routes/locations')
+const webhooks = require('routes/webhook')
 
 const app = express()
 
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
  * Routes
  */
 app.use('/', index)
+app.use('/locations', locations)
 app.use('/webhook', webhooks)
 
 /**

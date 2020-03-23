@@ -3,20 +3,32 @@
   <head>
     <title>Hope: COVID-19 Messenger bot</title>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-    <script src="/app.js"></script>
+    <link rel="stylesheet" href="<%= asset('app.css') %>">
+    <script src="<%= asset('app.js') %>" defer></script>
   </head>
   <body>
-    <h1>Welcome my friend!</h1>
     <div id="root"></div>
     <script>
-       (function(doc, script, domId){
-         var js, fjs = doc.getElementsByTagName(script)[0];
-         if (doc.getElementById(domId)) { return; }
-         js = doc.createElement(script);
-         js.id = domId;
-         js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'Messenger'));
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'Messenger'));
+
+      window.extAsyncInit = function () {
+        MessengerExtensions.getContext('<%= fbAppId %>', 
+          function success (ctx) {
+            window.threadContext = ctx
+          },
+          function error (error) {
+            console.log(error)
+          }
+        )
+      }
+    
+      window.appUrl = '<%= appUrl %>'
     </script>
   </body>
 </html>
