@@ -18,7 +18,7 @@ router.get('/:type', async (req, res) => {
   }
 
   if (!lastLocation) {
-    messageSender
+    new MessageSender(userId)
       .setMessage({
         text: 'Whooops? You need to tell us your location: ' + SETUP_LOCATION_GUIDE,
       })
