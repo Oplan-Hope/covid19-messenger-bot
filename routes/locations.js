@@ -1,33 +1,13 @@
 const router = require('express').Router()
-const MessageSender = require('utils/message-sender')
-const userLocationApi = require('api/user-location')
 const testingCentersApi = require('api/testing-centers')
+const requireLocation = require('middleware/require-location')
+const MessageSender = require('utils/message-sender')
 
-const SETUP_LOCATION_GUIDE = 'https://www.facebook.com/help/messenger-app/583011145134913'
 const UNDER_DEVELOPMENT =
   "Hey, we're still trying to fix this one for you to have a better user experience. Stay tuned!"
 
-router.get('/:type', async (req, res) => {
-  const userId = req.query.userId
-  const lastLocation = await userLocationApi.latest(userId)
-
-  new MessageSender(userId).setAction('typing_on').send()
-
-  if (!userId) {
-    return res.status(401).send('PSID is required')
-  }
-
-  if (!lastLocation) {
-    new MessageSender(userId)
-      .setMessage({
-        text: 'Whooops? You need to tell us your location: ' + SETUP_LOCATION_GUIDE,
-      })
-      .send()
-
-    return res.status(400).send('Last location not found')
-  }
-
-  new MessageSender(userId).setAction('typing_off').send()
+router.get('/:type', requireLocation, async (req, res) => {
+  const { userId, lastLocation } = res
 
   switch (req.params.type) {
     case 'TESTING_CENTERS':

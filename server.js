@@ -8,6 +8,7 @@ require('isomorphic-unfetch')
 
 const index = require('routes/index')
 const locations = require('routes/locations')
+const stats = require('routes/stats')
 const webhooks = require('routes/webhook')
 
 const app = express()
@@ -35,6 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
  */
 app.use('/', index)
 app.use('/locations', locations)
+app.use('/stats', stats)
 app.use('/webhook', webhooks)
 
 /**
