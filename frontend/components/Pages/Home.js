@@ -1,9 +1,9 @@
 import React from 'react'
+import * as webview from '@/utils/webview-controls'
 import * as locationApi from '@/api/locations'
-import FormCell from '@/components/FormCell'
 import LOCATIONS from '@/constants/locations'
-import * as webview from '@/utils/webview'
-import 'styles/home.css'
+import FormCell from '@/frontend/components/FormCell'
+import '@/frontend/styles/home.css'
 
 export default function Home() {
   const [locationType, setLocationType] = React.useState('')

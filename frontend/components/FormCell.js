@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import 'styles/form-cell.css'
+import '@/frontend/styles/form-cell.css'
 
 export default function FormCell({ variant = 'radio', selected = false, icon, children, className, ...props }) {
   return (

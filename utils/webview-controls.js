@@ -6,7 +6,7 @@
  *
  *  @returns {undefined}
  */
-export const close = () => {
+const close = () => {
   window.MessengerExtensions.requestCloseBrowser(
     function success() {
       return
@@ -15,4 +15,8 @@ export const close = () => {
       console.error(err, 'Unable to close window.', 'You may be viewing outside of the Messenger app.')
     }
   )
+}
+
+module.exports = {
+  close,
 }

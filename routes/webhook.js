@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
       ;(async function () {
         // We will retrieve the user's information using the PSID.
         const profile = await retrieveProfile(id, ['first_name', 'gender'])
-        
+
         console.log(profile)
 
         // Notifies user that the we are done...

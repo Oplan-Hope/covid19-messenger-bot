@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     key: 'TESTING_CENTERS',
     label: 'Testing Centers',

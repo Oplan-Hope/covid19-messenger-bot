@@ -11,7 +11,7 @@ module.exports = () => {
     mode: process.env.NODE_ENV,
 
     entry: {
-      app: './resources/js/app.js'
+      app: './frontend/app.js'
     },
 
     output: {
@@ -23,8 +23,7 @@ module.exports = () => {
 
     resolve: {
       alias: {
-        'styles': path.resolve('resources/css'),
-        '@': path.resolve('resources/js'),
+        '@': path.resolve(__dirname),
       },
     },
 
