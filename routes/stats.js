@@ -6,14 +6,22 @@ const MessageSender = require('utils/message-sender')
 router.get('/:region', withProfile, async (req, res) => {
   const { profile } = res
   const { region } = req.params
-  const stats = await statsApi.casesByRegion(region)
+  const worldwide = region === 'WORLD'
+
+  // TODO: This is a little bit repetitive, also in the webhooks section.
+  new MessageSender(profile.id).setAction('typing_on').send()
+
+  const stats = worldwide ? await statsApi.worldTotal() : await statsApi.casesByRegion(region)
+
+  // TODO: This is a little bit repetitive, also in the webhooks section.
+  new MessageSender(profile.id).setAction('typing_off').send()
 
   new MessageSender(profile.id)
     .setMessage({
       text: stats
-        ? ` ${stats.country_name} currently has: \n` +
-          ` - ${stats.cases} reported cases \n` +
-          ` - ${stats.deaths} total deaths \n` +
+        ? ` ${worldwide ? 'The world' : stats.country_name} currently have: \n` +
+          ` - ${worldwide ? stats.total_cases : stats.cases} reported cases \n` +
+          ` - ${worldwide ? stats.total_deaths : stats.deaths} total deaths \n` +
           ` - ${stats.total_recovered} total recovered \n` +
           ` - ${stats.new_cases} new cases \n` +
           `Stay safe ${profile.first_name || ''}!`

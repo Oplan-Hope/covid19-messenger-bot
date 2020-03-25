@@ -5,6 +5,7 @@
 
 .search-box input {
   border: none;
+  outline: none;
   background-image: none;
   background-color: transparent;
   -webkit-box-shadow: none;

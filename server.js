@@ -9,7 +9,7 @@ require('isomorphic-unfetch')
 const index = require('routes/index')
 const locations = require('routes/locations')
 const stats = require('routes/stats')
-const webhooks = require('routes/webhook')
+const webhooks = require('routes/webhooks')
 
 const app = express()
 
