@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
       new MessageSender(id).setAction('typing_on').send()
       ;(async function () {
         // We will retrieve the user's information using the PSID.
-        const profile = await retrieveProfile(id, ['first_name', 'gender'])
+        const profile = await retrieveProfile(id, ['id', 'first_name', 'last_name'])
 
         console.log(profile)
 
