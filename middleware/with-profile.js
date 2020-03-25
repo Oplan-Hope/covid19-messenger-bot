@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
     return res.status(401).send('PSID is required')
   }
 
-  const profile = await retrieveProfile(userId, ['first_name', 'gender'])
+  const profile = await retrieveProfile(userId, ['id', 'first_name', 'last_name'])
   res.profile = profile
   next()
 }
