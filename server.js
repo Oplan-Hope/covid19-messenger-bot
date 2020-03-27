@@ -6,6 +6,8 @@ const favicon = require('serve-favicon')
 require('dotenv').config()
 require('isomorphic-unfetch')
 
+const threadSetup = require('api/thread-setup')
+
 const index = require('routes/index')
 const locations = require('routes/locations')
 const stats = require('routes/stats')
@@ -32,12 +34,19 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 /**
- * Routes
+ * Route Registration
  */
 app.use('/', index)
 app.use('/locations', locations)
 app.use('/stats', stats)
 app.use('/webhook', webhooks)
+
+/**
+ * Thread Setup
+ */
+threadSetup.domainWhitelisting()
+threadSetup.persistentMenu()
+threadSetup.getStartedButton()
 
 /**
  * Here we go...
