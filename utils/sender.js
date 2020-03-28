@@ -71,7 +71,7 @@ const send = async (endpoint, messages, queryParams = {}, retries = 3) => {
  * @returns {undefined}
  */
 const callMessagesAPI = (messages, queryParams = {}) => {
-  return send('messages', ...messages, queryParams)
+  return send('messages', messages, queryParams)
 }
 
 const callMessengerProfileAPI = (messages, queryParams = {}) => {

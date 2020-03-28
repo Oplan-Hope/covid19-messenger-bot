@@ -1,7 +1,5 @@
 const router = require('express').Router()
-const webhooksController = require('controllers/webhooks')
-const retrieveProfile = require('utils/retrieve-profile')
-const MessageSender = require('utils/message-sender')
+const recieveApi = require('api/recieve')
 
 router.get('/', (req, res) => {
   if (req.query['hub.mode'] !== 'subscribe' || req.query['hub.verify_token'] !== process.env.FB_VERIFY_TOKEN) {
@@ -35,26 +33,13 @@ router.post('/', (req, res) => {
   // There may be multiple if batched
   for (const entry of data.entry) {
     for (const event of entry.messaging) {
-      // The facebook user's Page-scoped ID (PSID).
-      const id = event.sender.id
-
-      // Notifies user that the we are preparing something...
-      new MessageSender(id).setAction('typing_on').send()
-      ;(async function () {
-        // We will retrieve the user's information using the PSID.
-        const profile = await retrieveProfile(id, ['id', 'first_name', 'last_name'])
-
-        // Notifies user that the we are done...
-        await new MessageSender(id).setAction('typing_off').send()
-
-        if (event.postback) {
-          webhooksController.handlePostback(event.postback, profile, new MessageSender(id))
-        } else if (event.message) {
-          webhooksController.handleMessage(event.message, profile, new MessageSender(id))
-        } else {
-          console.log('Webhook received unknown messagingEvent: ', event)
-        }
-      })()
+      if (event.postback) {
+        recieveApi.handleReceivePostback(event)
+      } else if (event.message) {
+        recieveApi.handleReceiveMessage(event)
+      } else {
+        console.log('Webhook received unknown messagingEvent: ', event)
+      }
     }
   }
 })

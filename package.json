@@ -7,7 +7,7 @@
   "author": "Hope",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write \"{api,frontend,routes,utils}/**/*.{css,js,json}\"",
+    "format": "prettier --write \"{api,frontend,middleware,routes,utils}/**/*.{css,js,json}\"",
     "start": "cross-env NODE_PATH=./ node app.js",
     "dev-watch": "cross-env NODE_PATH=./ nodemon app.js",
     "build:dev": "cross-env NODE_ENV=development webpack --progress --hide-modules --colors",
