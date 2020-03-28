@@ -1,27 +1,31 @@
+const STATUS_CODES = require('http-status-codes')
+
+/**
+ * Globals
+ */
+const { API_URL, API_TOKEN } = process.env
+
 /**
  * Store a new user location.
  *
  * @param {object} attributes
  * @return {Promise<object|void>}
  */
-const store = async (attributes) => {
-  try {
-    const res = await fetch(process.env.API_URL + '/location', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Hope-Key': process.env.API_TOKEN,
-      },
-      body: JSON.stringify(attributes),
-    })
-
-    if (res.status === 201) {
-      return await res.json()
+const store = (attributes) =>
+  fetch(API_URL + '/location', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Hope-Key': API_TOKEN,
+    },
+    body: JSON.stringify(attributes),
+  }).then(async (res) => {
+    if (res.status !== STATUS_CODES.CREATED) {
+      throw new Error('Error: Saving User location')
     }
-  } catch (error) {
-    console.error('There is an error: ', error)
-  }
-}
+
+    return await res.json()
+  })
 
 /**
  * Give the latest locations recorded from the user.
@@ -30,16 +34,18 @@ const store = async (attributes) => {
  * @param {number} limit
  * @return {Promise<object|null|void>}
  */
-const latest = async (userId, limit = null) => {
-  try {
-    const res = await fetch(`${process.env.API_URL}/location/${userId}?limit=${limit}`)
-    if (res.status === 200) {
-      const locations = await res.json()
-      return locations.length > 0 ? locations[0] : null
+const latest = (userId, limit = null) =>
+  fetch(`${process.env.API_URL}/location/${userId}?limit=${limit}`, {
+    headers: {
+      'X-Hope-Key': API_TOKEN,
+    },
+  }).then(async (res) => {
+    if (res.status !== STATUS_CODES.OK) {
+      throw new Error('Error: Fetching User location')
     }
-  } catch (error) {
-    console.error('There is an error: ', error)
-  }
-}
+
+    const locations = await res.json()
+    return locations.length > 0 ? locations[0] : null
+  })
 
 module.exports = { store, latest }

@@ -89,14 +89,19 @@ const handleReceiveMessage = (event) => {
               ? 'generic' // TODO: We must identify the name of the location.
               : attachment.title
 
-            userLocationApi.store({
-              userId: senderId,
-              name,
-              latitude: payload.coordinates.lat,
-              longitude: payload.coordinates.long,
-            })
-
-            sendApi.sendLocationSharedMessage(senderId)
+            userLocationApi
+              .store({
+                userId: senderId,
+                name,
+                latitude: payload.coordinates.lat,
+                longitude: payload.coordinates.long,
+              })
+              .then(() => {
+                sendApi.sendLocationSharedMessage(senderId)
+              })
+              .catch(() => {
+                sendApi.sendLocationNotSharedMessage(senderId)
+              })
           }
         }
       }

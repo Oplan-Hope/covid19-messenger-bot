@@ -142,6 +142,15 @@ const sorryMessage = () => ({
 })
 
 /**
+ * Message that tells the user we cannot save their location.
+ *
+ * @returns {Object}
+ */
+const locationNotSharedMessage = () => ({
+  text: `Hey, I can't save your location! you can try again later :(`,
+})
+
+/**
  * Message with thanks and a button to open Quick Access webview.
  *
  * @param {String} appUrl - The application hostname.
@@ -254,6 +263,7 @@ module.exports = {
   // Messages.
   supportiveMessage,
   sorryMessage,
+  locationNotSharedMessage,
   locationSharedMessage,
   searchWildcardMessage,
 

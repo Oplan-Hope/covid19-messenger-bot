@@ -64,6 +64,16 @@ const sendMessage = (recipientId, messages) => {
 }
 
 /**
+ * Sends a message that tells the user we cannot save their location.
+ *
+ * @param {Number} recipientId
+ * @returns {undefined}
+ */
+const sendLocationNotSharedMessage = (recipientId) => {
+  sendMessage(recipientId, messages.locationNotSharedMessage())
+}
+
+/**
  * Sends a message with thanks and a button to open Quick Access webview.
  *
  * @param {Number} recipientId
@@ -121,6 +131,7 @@ module.exports = {
   sendLocationRequiredMessage,
 
   // Messages.
+  sendLocationNotSharedMessage,
   sendLocationSharedMessage,
   sendSearchWildcardMessage,
 
