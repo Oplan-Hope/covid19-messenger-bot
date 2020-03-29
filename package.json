@@ -1,6 +1,6 @@
 {
   "name": "covid19-messenger-bot",
-  "description": "Messenger chatbot that helps in tracking COVID19 cases, recoveries & deaths",
+  "description": "A Facebook Messenger Chatbot that helps in making the most out of the COVID19 pandemic.",
   "version": "1.0.0",
   "main": "app.js",
   "repository": "https://github.com/Oplan-Hope/covid19-messenger-bot",
