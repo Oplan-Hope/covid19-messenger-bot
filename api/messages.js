@@ -58,56 +58,37 @@ const nearestTestingCentersMessage = (testingCenters) => {
   //   )
   //   .join('')}`
 
-  const parseToObject = () => {
-    return testingCenters.map((testingCenter, i) => {
-      return {
-        title: `${testingCenter.name}`,
-        subtitle: `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n ${
-          testingCenter.verified ? '✅ Verified by WHO \n\n' : ''
-        }`,
-        image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
-        buttons: [
-          {
-            title: 'View',
-            type: 'web_url',
-            url: 'https://peterssendreceiveapp.ngrok.io/collection',
-            messenger_extensions: true,
-            webview_height_ratio: 'tall',
-            fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-          },
-        ],
-      }
-    })
-  }
+  // const parseToObject = () => {
+  //   return testingCenters.map((testingCenter, i) => {
+  //     return {
+  //       title: `${testingCenter.name}`,
+  //       subtitle: `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n ${
+  //         testingCenter.verified ? '✅ Verified by WHO \n\n' : ''
+  //       }`,
+  //       image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+  //       buttons: [
+  //         {
+  //           title: 'View',
+  //           type: 'web_url',
+  //           url: 'https://peterssendreceiveapp.ngrok.io/collection',
+  //           messenger_extensions: true,
+  //           webview_height_ratio: 'tall',
+  //           fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+  //         },
+  //       ],
+  //     }
+  //   })
+  // }
 
   return {
-    template_type: 'list',
-    top_element_style: 'compact',
-    elements: [{
-      "title": "Classic T-Shirt Collection",
-      "subtitle": "See all our colors",
-      "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
-      "buttons": [
-        {
-          "title": "View",
-          "type": "web_url",
-          "url": "https://peterssendreceiveapp.ngrok.io/collection",
-          "messenger_extensions": true,
-          "webview_height_ratio": "tall",
-          "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
-        }
-      ]
-    },
-    {
-      "title": "Classic White T-Shirt",
-      "subtitle": "See all our colors",
-      "default_action": {
-        "type": "web_url",
-        "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-        "messenger_extensions": false,
-        "webview_height_ratio": "tall"
-      }
-    }],
+    text: `${testingCenters
+      .map(
+        (testingCenter, i) =>
+          `${i + 1}. ${testingCenter.name}\n` +
+          `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n` +
+          `${testingCenter.verified ? '✅ Verified by WHO \n\n' : ''}`
+      )
+      .join('')}`,
     quick_replies: [createThankfulQuickReply()],
   }
 }
