@@ -109,53 +109,15 @@ const underDevelopmentMessage = () => ({
  * @returns {Object}
  */
 const nearestTestingCentersMessage = (testingCenters) => {
-  const distanceIcon = (i) => {
-    if (i === 0) return '🚕'
-    if (i === 1) return '🚌'
-    if (i === 2) return '🚆'
-    else return '🚀'
-  }
-
-  // `${testingCenters
-  //   .map(
-  //     (testingCenter, i) =>
-  //       `${i + 1}. ${testingCenter.name}\n` +
-  //       `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n` +
-  //       `${testingCenter.verified ? '✅ Verified by WHO \n\n' : ''}`
-  //   )
-  //   .join('')}`
-
-  // const parseToObject = () => {
-  //   return testingCenters.map((testingCenter, i) => {
-  //     return {
-  //       title: `${testingCenter.name}`,
-  //       subtitle: `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n ${
-  //         testingCenter.verified ? '✅ Verified by WHO \n\n' : ''
-  //       }`,
-  //       image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
-  //       buttons: [
-  //         {
-  //           title: 'View',
-  //           type: 'web_url',
-  //           url: 'https://peterssendreceiveapp.ngrok.io/collection',
-  //           messenger_extensions: true,
-  //           webview_height_ratio: 'tall',
-  //           fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
-  //         },
-  //       ],
-  //     }
-  //   })
-  // }
 
   return {
-    text: `${testingCenters
-      .map(
-        (testingCenter, i) =>
-          `${i + 1}. ${testingCenter.name}\n` +
-          `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n` +
-          `${testingCenter.verified ? '✅ Verified by WHO \n\n' : ''}`
-      )
-      .join('')}`,
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: testingCenters,
+      },
+    },
     quick_replies: [createThankfulQuickReply()],
   }
 }
@@ -404,7 +366,13 @@ const resourceMessage = () => ({
  */
 const nearBySearchMessage = (resultNearBy, searchTitle) => {
   return {
-    text: `${searchTitle}: \n\n ${JSON.parse(resultNearBy)}`,
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements:resultNearBy,
+      },
+    },
     quick_replies: [createThankfulQuickReply()],
   }
 }
