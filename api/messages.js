@@ -83,7 +83,31 @@ const nearestTestingCentersMessage = (testingCenters) => {
   return {
     template_type: 'list',
     top_element_style: 'compact',
-    elements: [parseToObject()],
+    elements: [{
+      "title": "Classic T-Shirt Collection",
+      "subtitle": "See all our colors",
+      "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
+      "buttons": [
+        {
+          "title": "View",
+          "type": "web_url",
+          "url": "https://peterssendreceiveapp.ngrok.io/collection",
+          "messenger_extensions": true,
+          "webview_height_ratio": "tall",
+          "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
+        }
+      ]
+    },
+    {
+      "title": "Classic White T-Shirt",
+      "subtitle": "See all our colors",
+      "default_action": {
+        "type": "web_url",
+        "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
+        "messenger_extensions": false,
+        "webview_height_ratio": "tall"
+      }
+    }],
     quick_replies: [createThankfulQuickReply()],
   }
 }
@@ -137,7 +161,7 @@ const covid19TweetsResourceMessage = () => ({
             },
             {
               type: 'postback',
-              title: 'Others',
+              title: 'Resources',
               payload: 'RESOURCES',
             },
           ],
@@ -172,7 +196,7 @@ const covid19MapResourceMessage = () => ({
             },
             {
               type: 'postback',
-              title: 'Others',
+              title: 'Resources',
               payload: 'RESOURCES',
             },
           ],
