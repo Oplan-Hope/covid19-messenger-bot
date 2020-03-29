@@ -1,6 +1,6 @@
 <p align="center">
-    <a href="https://work-galore.com" title="Workgalore">
-        <img src="https://github.com/Oplan-Hope/covid19-messenger-bot/tree/master/public/logo.png" width="400">
+    <a href="http://m.me/108567037219107" title="Hope">
+      <img src="https://github.com/Oplan-Hope/covid19-messenger-bot/blob/master/public/logo.png?raw=true" width="200" style="border-radius: 50%;">
     </a>
 </p>
 
