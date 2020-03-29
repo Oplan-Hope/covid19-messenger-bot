@@ -49,17 +49,41 @@ const nearestTestingCentersMessage = (testingCenters) => {
     else return '🚀'
   }
 
+  // `${testingCenters
+  //   .map(
+  //     (testingCenter, i) =>
+  //       `${i + 1}. ${testingCenter.name}\n` +
+  //       `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n` +
+  //       `${testingCenter.verified ? '✅ Verified by WHO \n\n' : ''}`
+  //   )
+  //   .join('')}`
+
+  const parseToObject = () => {
+    return testingCenters.map((testingCenter, i) => {
+      return {
+        title: `${testingCenter.name}`,
+        subtitle: `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n ${
+          testingCenter.verified ? '✅ Verified by WHO \n\n' : ''
+        }`,
+        image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+        buttons: [
+          {
+            title: 'View',
+            type: 'web_url',
+            url: 'https://peterssendreceiveapp.ngrok.io/collection',
+            messenger_extensions: true,
+            webview_height_ratio: 'tall',
+            fallback_url: 'https://peterssendreceiveapp.ngrok.io/',
+          },
+        ],
+      }
+    })
+  }
+
   return {
-    text:
-      'Nearest Testing Centers: \n\n' +
-      `${testingCenters
-        .map(
-          (testingCenter, i) =>
-            `${i + 1}. ${testingCenter.name}\n` +
-            `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n` +
-            `${testingCenter.verified ? '✅ Verified by WHO \n\n' : ''}`
-        )
-        .join('')}`,
+    template_type: 'list',
+    top_element_style: 'compact',
+    elements: [parseToObject()],
     quick_replies: [createThankfulQuickReply()],
   }
 }
@@ -89,12 +113,73 @@ const thankYouMessage = () => ({
 })
 
 const covid19TweetsResourceMessage = () => ({
-  text: `If you want to be stay updated with the latest news and tweets about COVID-19, please check out this link for more info: https://bit.ly/2U3D9GV`,
+  attachment: {
+    type: 'template',
+    payload: {
+      template_type: 'generic',
+      elements: [
+        {
+          title:
+            'If you want to be stay updated with the latest news and tweets about COVID-19, please check out this link for more info: ',
+          image_url:
+            'https://images.newscientist.com/wp-content/uploads/2020/02/11165812/c0481846-wuhan_novel_coronavirus_illustration-spl.jpg',
+          subtitle: 'See latest threads about COVID panademic',
+          default_action: {
+            type: 'web_url',
+            url: 'https://bit.ly/2U3D9GV',
+            webview_height_ratio: 'tall',
+          },
+          buttons: [
+            {
+              type: 'web_url',
+              url: 'https://bit.ly/2U3D9GV',
+              title: 'View tweets',
+            },
+            {
+              type: 'postback',
+              title: 'Others',
+              payload: 'RESOURCES',
+            },
+          ],
+        },
+      ],
+    },
+  },
   quick_replies: [createThankfulQuickReply()],
 })
 
 const covid19MapResourceMessage = () => ({
-  text: `If you want to take a look at the detailed mapping of COVID-19 cases, please check out this link for an interactive map: https://the2019ncov.com/`,
+  attachment: {
+    type: 'template',
+    payload: {
+      template_type: 'generic',
+      elements: [
+        {
+          title:
+            'If you want to take a look at the detailed mapping of COVID-19 cases, please check out this link for an interactive',
+          image_url: 'https://www.wishtv.com/wp-content/uploads/2020/03/Johns-Hopkins-map.jpg',
+          subtitle: '',
+          default_action: {
+            type: 'web_url',
+            url: 'https://the2019ncov.com/',
+            webview_height_ratio: 'tall',
+          },
+          buttons: [
+            {
+              type: 'web_url',
+              url: 'https://the2019ncov.com/',
+              title: 'View map',
+            },
+            {
+              type: 'postback',
+              title: 'Others',
+              payload: 'RESOURCES',
+            },
+          ],
+        },
+      ],
+    },
+  },
   quick_replies: [createThankfulQuickReply()],
 })
 
@@ -230,6 +315,20 @@ const resourceMessage = () => ({
 })
 
 /**
+ * Message containing nearest testing centers
+ *
+ * @param {Object[]} resultNearBy List of result by search query eg. hospitals
+ * @param {String} searchTitle  Serve as the message title
+ * @returns {Object}
+ */
+const nearBySearchMessage = (resultNearBy, searchTitle) => {
+  return {
+    text: `${searchTitle}: \n\n ${JSON.parse(resultNearBy)}`,
+    quick_replies: [createThankfulQuickReply()],
+  }
+}
+
+/**
  * Message that welcomes the user to the bot
  *
  * @param {String} appUrl - The application hostname.
@@ -252,6 +351,7 @@ module.exports = {
   nearestTestingCentersMessage,
   statisticsMessage,
   locationRequiredMessage,
+  nearBySearchMessage,
 
   // Quick Replies
   thankYouMessage,

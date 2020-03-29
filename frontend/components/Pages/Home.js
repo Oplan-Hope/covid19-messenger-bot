@@ -47,13 +47,16 @@ const LOCATIONS = [
     label: 'Testing Centers',
     icon: '🏥',
   },
-
+  {
+    key: 'HOSPITALS',
+    label: 'Hospitals',
+    icon: '🏥',
+  },
   {
     key: 'CHECKPOINTS',
     label: 'Checkpoints',
     icon: '🚧',
   },
-
   {
     key: 'BANKS',
     label: 'Banks / ATM',
@@ -71,7 +74,11 @@ const LOCATIONS = [
     label: 'Grocery Stores',
     icon: '🛍️',
   },
-
+  {
+    key: 'POLICE_STATIONS',
+    label: 'Police Station',
+    icon: '👮',
+  },
   {
     key: 'FACE_MASKS',
     label: 'Face Masks',
