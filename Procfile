@@ -1,3 +1,3 @@
-web:         env NODE_PATH=./ node app.js
-worker:      env NODE_PATH=./ node worker.js
+web:         node app.js
+worker:      node worker.js
 dispatcher:  node bin/dispatcher
