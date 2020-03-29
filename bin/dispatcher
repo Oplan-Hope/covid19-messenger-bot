@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+const Queue = require('bull')
+
+// Pull in environment variables
+const { REDIS_URL } = process.env
+
+// Get the queue to push jobs into.
+const newsQueue = new Queue('news', REDIS_URL, { prefix: 'hope' })
+
+// Push the job to the queue
+const job = newsQueue.add({}, { repeat: { cron: '* * * * *' } })
+
+// Listen to job progress
+if (job) {
+  job.then(async (job) => {
+    const state = await job.getState()
+    const progress = job._progress
+    console.log(`Job: ${job.id} | Status: ${state} | Progress: ${progress}`)
+  })
+}
+
+// Listen when a job is completed in the queue
+newsQueue.on('global:completed', (jobId, result) => {
+  console.log(`Job: ${jobId} completed with result: ${result}`);
+})
+

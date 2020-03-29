@@ -37,8 +37,12 @@ async function start() {
         throw new Error('No stats to send')
       }
 
+      let count = 0
+
       for (let user of users) {
         sendApi.sendLatestNewsMessage(user.userId, stats, user.name)
+        count += 1
+        job.progress(count / users.length * 100)
       }
 
       // A job can return values that will be stored in Redis as JSON
