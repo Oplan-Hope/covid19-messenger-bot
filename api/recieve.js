@@ -1,6 +1,7 @@
 const messagesApi = require('api/messages')
 const sendApi = require('api/send')
 const userLocationApi = require('api/user-location')
+const usersApi = require('api/users')
 
 /**
  * Postback event handler triggered by a postback action you, the developer,
@@ -24,6 +25,12 @@ const handleReceivePostback = async (event) => {
   const senderId = event.sender.id
 
   switch (type) {
+    case 'DISABLE_REALTIME_UPDATES':
+      usersApi.update(senderId, { recieveNotificationsAt: null }).then(() => {
+        sendApi.sendRealtimeUpdatesDisabledMessage(senderId)
+      })
+      break
+
     case 'RESOURCES':
       sendApi.sendResourceMessage(senderId)
       break

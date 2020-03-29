@@ -3,12 +3,23 @@ const messageGenerator = require('utils/message-generator')
 /**
  * Quick reply for sending thanks :)
  *
- * @returns {undefined}
+ * @returns {Object}
  */
-const createThankfulQuickReply = () => ({
+const createThankfulQuickReply = () => {
+  return createQuickReply(messageGenerator.gratefulMessage(), 'TY')
+}
+
+/**
+ * Create a new quick reply
+ *
+ * @param {String} title
+ * @param {String} payload
+ * @returns {Object}
+ */
+const createQuickReply = (title, payload) => ({
   content_type: 'text',
-  title: messageGenerator.gratefulMessage(),
-  payload: 'TY',
+  title,
+  payload,
 })
 
 /**
@@ -27,10 +38,34 @@ const createButton = (webviewUrl, buttonTitle = 'Open') => ({
 })
 
 /**
+ * Message that informs the user that we collected their data and give them
+ * option to opt-out
+ *
+ * @returns {Object}
+ */
+const realtimeUpdatesMessage = () => ({
+  attachment: {
+    type: 'template',
+    payload: {
+      template_type: 'button',
+      text: 'You are automatically subscribed to real-time updates but you can always opt-out',
+      buttons: [
+        {
+          type: 'postback',
+          title: 'Disable',
+          payload: 'DISABLE_REALTIME_UPDATES',
+        },
+      ],
+    },
+  },
+})
+
+/**
  * Message that gives an up to date briefing to the user.
  *
  * @param {Object} stats The stats for a given region.
  * @param {string} name The name of the user.
+ * @returns {Object}
  */
 const latestNewsMessage = (stats, name = 'Buddy') => ({
   text:
@@ -302,6 +337,15 @@ const locationRequiredMessage = () => ({
 })
 
 /**
+ * Message informing the user that the real-time updates feature has been disabled.
+ *
+ * @returns {Object}
+ */
+const realtimeUpdatesDisabledMessage = () => ({
+  text: 'I want you to stay updated, but I understand. Have a blessed day!',
+})
+
+/**
  * Message with informative text.
  *
  * @returns {Object}
@@ -370,6 +414,7 @@ const welcomeMessage = (appUrl) => ({
 
 module.exports = {
   // Others
+  realtimeUpdatesMessage,
   latestNewsMessage,
   underDevelopmentMessage,
   nearestTestingCentersMessage,
@@ -392,6 +437,7 @@ module.exports = {
   searchWildcardMessage,
 
   // Postbacks.
+  realtimeUpdatesDisabledMessage,
   resourceMessage,
   welcomeMessage,
 }

@@ -28,7 +28,7 @@ async function start() {
   newsQueue.process(maxJobsPerWorker, async job => {
     try {
       // Fetch subscribed users
-      const users = await usersApi.subscribed()
+      const users = await usersApi.subscribed().catch(console.log) || []
 
       // Fetch statistics
       const stats = await statsApi.casesByRegion('ph')

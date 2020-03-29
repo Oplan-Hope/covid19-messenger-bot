@@ -94,6 +94,14 @@ const sendSearchWildcardMessage = (recipientId) => {
 }
 
 /**
+ * @param {Number} recipientId
+ * @returns {undefined}
+ */
+const sendRealtimeUpdatesMessage = (recipientId) => {
+  sendMessage(recipientId, messages.realtimeUpdatesMessage())
+}
+
+/**
  * Sends a message that gives an up to date briefing to the user.
  *
  * @param {Number} recipientId The user's page scoped ID
@@ -112,6 +120,14 @@ const sendLatestNewsMessage = (recipientId, ...other) => {
  */
 const sendLocationRequiredMessage = (recipientId) => {
   sendMessage(recipientId, messages.locationRequiredMessage())
+}
+
+/**
+ * @param {Number} recipientId
+ * @returns {undefined}
+ */
+const sendRealtimeUpdatesDisabledMessage = (recipientId) => {
+  sendMessage(recipientId, messages.realtimeUpdatesDisabledMessage())
 }
 
 /**
@@ -139,6 +155,7 @@ module.exports = {
   sendRecieved,
 
   // Others.
+  sendRealtimeUpdatesMessage,
   sendLatestNewsMessage,
   sendLocationRequiredMessage,
 
@@ -148,6 +165,7 @@ module.exports = {
   sendSearchWildcardMessage,
 
   // Postbacks.
+  sendRealtimeUpdatesDisabledMessage,
   sendResourceMessage,
   sendWelcomeMessage,
 }
