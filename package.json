@@ -10,12 +10,14 @@
     "format": "prettier --write \"{api,frontend,middleware,routes,utils}/**/*.{css,js,json}\"",
     "start": "cross-env NODE_PATH=./ node app.js",
     "dev-watch": "cross-env NODE_PATH=./ nodemon app.js",
+    "worker:dev": "cross-env PORT=8002 NODE_PATH=./ node worker.js",
     "build:dev": "cross-env NODE_ENV=development webpack --progress --hide-modules --colors",
     "build:watch": "yarn build:dev -- --watch",
     "build:prod": "cross-env NODE_ENV=production webpack --no-progress --hide-modules --colors"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "bull": "^3.13.0",
     "classnames": "^2.2.6",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -29,7 +31,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "throng": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
