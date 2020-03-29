@@ -94,6 +94,17 @@ const sendSearchWildcardMessage = (recipientId) => {
 }
 
 /**
+ * Sends a message that gives an up to date briefing to the user.
+ *
+ * @param {Number} recipientId The user's page scoped ID
+ * @param {...} other
+ * @returns {undefined}
+ */
+const sendLatestNewsMessage = (recipientId, ...other) => {
+  sendMessage(recipientId, messages.latestNewsMessage(...other))
+}
+
+/**
  * Sends a message with a warning that they need to give their location.
  *
  * @param {Number} recipientId The user's page scoped ID
@@ -128,6 +139,7 @@ module.exports = {
   sendRecieved,
 
   // Others.
+  sendLatestNewsMessage,
   sendLocationRequiredMessage,
 
   // Messages.

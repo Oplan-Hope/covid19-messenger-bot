@@ -27,6 +27,24 @@ const createButton = (webviewUrl, buttonTitle = 'Open') => ({
 })
 
 /**
+ * Message that gives an up to date briefing to the user.
+ *
+ * @param {Object} stats The stats for a given region.
+ * @param {string} name The name of the user.
+ */
+const latestNewsMessage = (stats, name = 'Buddy') => ({
+  text:
+    `Hey ${name} just in case you're feeling alone, ` +
+    `I know you're worried about us. Here's the latest update ` +
+    'about COVID-19 today. \n \n' +
+    'What we have so far... \n' +
+    `${stats.cases} reported cases 😰 \n` +
+    `${stats.new_cases} new cases 😷 \n` +
+    `${stats.total_recovered} have recovered 😀 \n` +
+    `${stats.deaths} have lost battle. RIP 😇`,
+})
+
+/**
  * Message that tells the requested feature is under development.
  *
  * @returns {Object}
@@ -352,6 +370,7 @@ const welcomeMessage = (appUrl) => ({
 
 module.exports = {
   // Others
+  latestNewsMessage,
   underDevelopmentMessage,
   nearestTestingCentersMessage,
   statisticsMessage,
