@@ -8,8 +8,8 @@ const { REDIS_URL } = process.env
 // Get the queue to push jobs into.
 const newsQueue = new Queue('news', REDIS_URL, { prefix: 'hope' })
 
-// Push the job to the queue
-const job = newsQueue.add({}, { repeat: { cron: '* * * * *' } })
+// Push the job to the queue, repeatedly every 5pm
+const job = newsQueue.add({}, { repeat: { cron: '0 17 * * *' } })
 
 // Listen to job progress
 if (job) {

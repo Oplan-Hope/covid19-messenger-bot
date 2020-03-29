@@ -38,6 +38,18 @@ const createButton = (webviewUrl, buttonTitle = 'Open') => ({
 })
 
 /**
+ * @param {String} title
+ * @param {String} payload
+ *
+ * @returns {Object}
+ */
+const createPostbackButton = (title, payload = null) => ({
+  type: 'postback',
+  title,
+  payload,
+})
+
+/**
  * Message that informs the user that we collected their data and give them
  * option to opt-out
  *
@@ -49,13 +61,7 @@ const realtimeUpdatesMessage = () => ({
     payload: {
       template_type: 'button',
       text: 'You are automatically subscribed to real-time updates but you can always opt-out',
-      buttons: [
-        {
-          type: 'postback',
-          title: 'Disable',
-          payload: 'DISABLE_REALTIME_UPDATES',
-        },
-      ],
+      buttons: [createPostbackButton('Disable', 'DISABLE_REALTIME_UPDATES')],
     },
   },
 })
@@ -68,15 +74,23 @@ const realtimeUpdatesMessage = () => ({
  * @returns {Object}
  */
 const latestNewsMessage = (stats, name = 'Buddy') => ({
-  text:
-    `Hey ${name} just in case you're feeling alone, ` +
-    `I know you're worried about us. Here's the latest update ` +
-    'about COVID-19 today. \n \n' +
-    'What we have so far... \n' +
-    `${stats.cases} reported cases 😰 \n` +
-    `${stats.new_cases} new cases 😷 \n` +
-    `${stats.total_recovered} have recovered 😀 \n` +
-    `${stats.deaths} have lost battle. RIP 😇`,
+  attachment: {
+    type: 'template',
+    payload: {
+      template_type: 'button',
+      text:
+        `Hey ${name} just in case you're feeling alone, ` +
+        `I know you're worried about us. Here's the latest update ` +
+        'about COVID-19 today. \n \n' +
+        'What we have so far... \n' +
+        `${stats.cases} reported cases 😰 \n` +
+        `${stats.new_cases} new cases 😷 \n` +
+        `${stats.total_recovered} have recovered 😀 \n` +
+        `${stats.deaths} have lost battle. RIP 😇 \n\n` +
+        'Stay safe my friend!',
+      buttons: [createPostbackButton('Disable Updates', 'DISABLE_REALTIME_UPDATES')],
+    },
+  },
 })
 
 /**
@@ -342,7 +356,7 @@ const locationRequiredMessage = () => ({
  * @returns {Object}
  */
 const realtimeUpdatesDisabledMessage = () => ({
-  text: 'I want you to stay updated, but I understand. Have a blessed day!',
+  text: `Okay I'll try to be as quiet as possible :( \n\nHave a blessed day!`,
 })
 
 /**
