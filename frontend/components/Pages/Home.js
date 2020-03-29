@@ -76,7 +76,7 @@ const LOCATIONS = [
   },
   {
     key: 'POLICE_STATIONS',
-    label: 'Police Station',
+    label: 'Police Stations',
     icon: '👮',
   },
   {
