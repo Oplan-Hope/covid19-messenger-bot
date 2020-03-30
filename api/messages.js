@@ -380,13 +380,13 @@ const nearBySearchMessage = (resultNearBy) => {
 
 const nearBySearchText = (searchTitle) => { 
   return {
-    text: `These are the list of the current ${searchTitle} near at your location`,
+    text: `Gotcha! Here's the list of nearest available ${searchTitle} at your location. Stay safe`,
   }
 }
 
 const nearBySearchFail = (searchTitle) => { 
   return {
-    text: `Currently there's no ${searchTitle} near at your current location sorry dear`,
+    text: `Ooops! It seems that there's no available ${searchTitle} near at your location. Sorry, dear. 🥺`,
     quick_replies: [createThankfulQuickReply()],
   }
 }
