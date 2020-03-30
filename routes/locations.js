@@ -2,13 +2,13 @@ const router = require('express').Router()
 const messagesApi = require('api/messages')
 const sendApi = require('api/send')
 const testingCentersApi = require('api/testing-centers')
-const { getNearByLocation } = require('api/nearby-search')
-
+const { getNearByLocation, objectNearByParse } = require('api/nearby-search')
 const requireLocation = require('middleware/require-location')
 
 router.get('/:type', requireLocation, async (req, res) => {
   const { userId, lastLocation } = res
 
+  var nearbyMessage
   switch (req.params.type) {
     case 'TESTING_CENTERS':
       const testingCenters = testingCentersApi.nearest({
@@ -31,6 +31,13 @@ router.get('/:type', requireLocation, async (req, res) => {
             subtitle: `${distanceIcon(i)} ${testingCenter.distance} Kilometers away  ${
               testingCenter.verified ? '✅ Verified by WHO ' : ''
             }`,
+            buttons: [
+              {
+                type: 'web_url',
+                url: `https://www.google.com/maps/?q=${testingCenter.latitude},${testingCenter.longitude}`,
+                title: 'View Location',
+              },
+            ],
           })
         })
       }
@@ -38,39 +45,54 @@ router.get('/:type', requireLocation, async (req, res) => {
       sendApi.sendMessage(userId, messagesApi.nearestTestingCentersMessage(arrayOfNearestTestCenter))
       break
     case 'BANKS':
-      const nearbyBanks = getNearByLocation('banks', lastLocation, 3000)
-   
-      // const parse = () => {
-      //   return arrayOfResults.map((value, i) => {
-      //     return arrayOfResults.push({
-      //       title: `${value.name}`,
-      //       subtitle: `${value.vicinity}`
-      //     })
-      //   })
-      // }
-      // await parse()
-
-      console.log(nearbyBanks)
-      // sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(arrayOfResults, 'Nearby banks at you'))
+      const nearbyBanks = await getNearByLocation('banks', lastLocation, 3000)
+      nearbyMessage = await objectNearByParse(nearbyBanks.results)
+      if (nearbyMessage.length != 0) {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchText('banks'))
+        sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(nearbyMessage))
+      } else {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchFail('banks'))
+      }
       break
     case 'PHARMACIES':
-      const nearbyPharmacies = getNearByLocation('pharmacies', lastLocation, 2000)
-      sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(nearbyPharmacies, 'Nearby pharmacies at you'))
+      const nearbyPharmacies = await getNearByLocation('pharmacies', lastLocation, 1000)
+      nearbyMessage = await objectNearByParse(nearbyPharmacies.results)
+      if (nearbyMessage.length != 0) {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchText('pharmacies'))
+        sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(nearbyMessage))
+      } else {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchFail('pharmacies'))
+      }
       break
     case 'GROCERY_STORES':
-      const nearbyMarkets = getNearByLocation('supermarket/groccery', lastLocation, 2000)
-      sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(nearbyMarkets, 'Nearby grocery stores at you'))
+      const nearbyMarkets = await getNearByLocation('supermarket/groccery', lastLocation, 3000)
+      nearbyMessage = await objectNearByParse(nearbyMarkets.results)
+      if (nearbyMessage.length != 0) {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchText('grocery stores and supermarkets'))
+        sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(nearbyMessage))
+      } else {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchFail('grocery stores and supermarkets'))
+      }
       break
     case 'HOSPITALS':
-      const nearbyHospitals = getNearByLocation('hospitals', lastLocation, 2000)
-      sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(nearbyHospitals, 'Nearby hospitals at you'))
+      const nearbyHospitals = await getNearByLocation('hospitals', lastLocation, 5000)
+      nearbyMessage = await objectNearByParse(nearbyHospitals.results)
+      if (nearbyMessage.length != 0) {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchText('hospitals'))
+        sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(nearbyMessage))
+      } else {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchFail('hospitals'))
+      }
       break
     case 'POLICE_STATIONS':
-      const nearbyPoliceStations = getNearByLocation('police stations', lastLocation, 2000)
-      sendApi.sendMessage(
-        userId,
-        messagesApi.nearBySearchMessage(nearbyPoliceStations, 'Nearby police stations at you')
-      )
+      const nearbyPoliceStations = await getNearByLocation('police stations', lastLocation, 2000)
+      nearbyMessage = await objectNearByParse(nearbyPoliceStations.results)
+      if (nearbyMessage.length != 0) {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchText('police stations'))
+        sendApi.sendMessage(userId, messagesApi.nearBySearchMessage(nearbyMessage))
+      } else {
+        sendApi.sendMessage(userId, messagesApi.nearBySearchFail('police stations'))
+      }
       break
 
     default:

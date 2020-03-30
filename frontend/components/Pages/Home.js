@@ -43,26 +43,20 @@ export default function Home() {
 
 const LOCATIONS = [
   {
+    key: 'HOSPITALS',
+    label: 'Hospitals',
+    icon: '👨‍⚕️',
+  },
+  {
     key: 'TESTING_CENTERS',
     label: 'Testing Centers',
     icon: '🏥',
-  },
-  {
-    key: 'HOSPITALS',
-    label: 'Hospitals',
-    icon: '🏥',
-  },
-  {
-    key: 'CHECKPOINTS',
-    label: 'Checkpoints',
-    icon: '🚧',
   },
   {
     key: 'BANKS',
     label: 'Banks / ATM',
     icon: '🏧',
   },
-
   {
     key: 'PHARMACIES',
     label: 'Pharmacies',
@@ -78,10 +72,5 @@ const LOCATIONS = [
     key: 'POLICE_STATIONS',
     label: 'Police Stations',
     icon: '👮',
-  },
-  {
-    key: 'FACE_MASKS',
-    label: 'Face Masks',
-    icon: '😷',
   },
 ]

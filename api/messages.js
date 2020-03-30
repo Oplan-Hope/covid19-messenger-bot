@@ -364,7 +364,8 @@ const resourceMessage = () => ({
  * @param {String} searchTitle  Serve as the message title
  * @returns {Object}
  */
-const nearBySearchMessage = (resultNearBy, searchTitle) => {
+const nearBySearchMessage = (resultNearBy) => {
+  console.log(resultNearBy)
   return {
     attachment: {
       type: 'template',
@@ -373,6 +374,19 @@ const nearBySearchMessage = (resultNearBy, searchTitle) => {
         elements:resultNearBy,
       },
     },
+    quick_replies: [createThankfulQuickReply()],
+  }
+}
+
+const nearBySearchText = (searchTitle) => { 
+  return {
+    text: `This are the list of  current ${searchTitle} near at your location`,
+  }
+}
+
+const nearBySearchFail = (searchTitle) => { 
+  return {
+    text: `Currently there's no ${searchTitle} at your current location sorry dear`,
     quick_replies: [createThankfulQuickReply()],
   }
 }
@@ -417,6 +431,8 @@ module.exports = {
   locationNotSharedMessage,
   locationSharedMessage,
   searchWildcardMessage,
+  nearBySearchText,
+  nearBySearchFail,
 
   // Postbacks.
   realtimeUpdatesDisabledMessage,
