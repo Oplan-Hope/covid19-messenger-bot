@@ -28,7 +28,7 @@ router.get('/:type', requireLocation, async (req, res) => {
         return testingCenters.map((testingCenter, i) => {
           return arrayOfNearestTestCenter.push({
             title: `${testingCenter.name}`,
-            subtitle: `${distanceIcon(i)} ${testingCenter.distance} Kilometers away  ${
+            subtitle: `${distanceIcon(i)} ${testingCenter.distance} Kilometers away \n${
               testingCenter.verified ? '✅ Verified by WHO ' : ''
             }`,
             buttons: [

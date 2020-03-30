@@ -22,12 +22,24 @@ const getNearByLocation = async (keyword, location, distance = 1000) => {
 }
 
 const objectNearByParse = async (result) => {
+  const ratingsIcon = (i) => {
+    if (i === 0) return '⭐'
+    if (i === 1) return '⭐'
+    if (i === 2) return '⭐⭐'
+    if (i === 3) return '⭐⭐⭐'
+    if (i === 4) return '⭐⭐⭐⭐'
+    if (i === 5) return '⭐⭐⭐⭐⭐'
+    else return '⭐⭐⭐⭐⭐'
+  }
+
   const arrayRes = []
-  result.map((value, i) => {
+  result.map(async (value, i) => {
     if (10 > i) {
       arrayRes.push({
         title: `${value.name}`,
-        subtitle: `${value.vicinity}`,
+        subtitle: `Address:${value.vicinity}\n${
+          value.opening_hours && value.opening_hours.open_now ? 'Status: Open now' : 'Status: Closed'
+        }\nUser Ratings: ${ratingsIcon(value.rating)}`,
         buttons: [
           {
             type: 'web_url',
@@ -40,6 +52,24 @@ const objectNearByParse = async (result) => {
   })
 
   return arrayRes
+}
+
+const getPhotoReference = async (photoRef) => {
+  const stringUrl = await fetch(
+    `${process.env.GOOGLE_API_URL}/photo?maxwidth=400&photoreference=${photoRef}&key=${process.env.GOOGLE_API_KEY}`
+  )
+    .then(async (res) => {
+      if (res.status !== STATUS_CODES.OK) {
+        throw new Error('Error: Fetching nearby')
+      }
+      return await response.blob()
+    })
+    .then((images) => {
+      outside = URL.createObjectURL(images)
+      return outside
+    })
+
+  return stringUrl
 }
 
 const getNearestBy = (object) => {
