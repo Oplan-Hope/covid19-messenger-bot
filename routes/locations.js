@@ -75,7 +75,7 @@ router.get('/:type', requireLocation, async (req, res) => {
       }
       break
     case 'HOSPITALS':
-      const nearbyHospitals = await getNearByLocation('hospitals', lastLocation, 5000)
+      const nearbyHospitals = await getNearByLocation('hospitals', lastLocation, 7000)
       nearbyMessage = await objectNearByParse(nearbyHospitals.results)
       if (nearbyMessage.length != 0) {
         sendApi.sendMessage(userId, messagesApi.nearBySearchText('hospitals'))
@@ -85,7 +85,7 @@ router.get('/:type', requireLocation, async (req, res) => {
       }
       break
     case 'POLICE_STATIONS':
-      const nearbyPoliceStations = await getNearByLocation('police stations', lastLocation, 2000)
+      const nearbyPoliceStations = await getNearByLocation('police stations', lastLocation, 300)
       nearbyMessage = await objectNearByParse(nearbyPoliceStations.results)
       if (nearbyMessage.length != 0) {
         sendApi.sendMessage(userId, messagesApi.nearBySearchText('police stations'))
