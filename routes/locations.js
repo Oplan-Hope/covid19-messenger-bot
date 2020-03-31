@@ -55,7 +55,7 @@ router.get('/:type', requireLocation, async (req, res) => {
       }
       break
     case 'PHARMACIES':
-      const nearbyPharmacies = await getNearByLocation('pharmacies', lastLocation, 1000)
+      const nearbyPharmacies = await getNearByLocation('pharmacies', lastLocation, 2000)
       nearbyMessage = await objectNearByParse(nearbyPharmacies.results)
       if (nearbyMessage.length != 0) {
         sendApi.sendMessage(userId, messagesApi.nearBySearchText('pharmacies'))
@@ -65,7 +65,7 @@ router.get('/:type', requireLocation, async (req, res) => {
       }
       break
     case 'GROCERY_STORES':
-      const nearbyMarkets = await getNearByLocation('supermarket/groccery', lastLocation, 5000)
+      const nearbyMarkets = await getNearByLocation('supermarket/groccery', lastLocation, 10000)
       nearbyMessage = await objectNearByParse(nearbyMarkets.results)
       if (nearbyMessage.length != 0) {
         sendApi.sendMessage(userId, messagesApi.nearBySearchText('grocery stores and supermarkets'))
@@ -75,7 +75,7 @@ router.get('/:type', requireLocation, async (req, res) => {
       }
       break
     case 'HOSPITALS':
-      const nearbyHospitals = await getNearByLocation('hospitals', lastLocation, 7000)
+      const nearbyHospitals = await getNearByLocation('hospitals', lastLocation, 10000)
       nearbyMessage = await objectNearByParse(nearbyHospitals.results)
       if (nearbyMessage.length != 0) {
         sendApi.sendMessage(userId, messagesApi.nearBySearchText('hospitals'))
@@ -85,7 +85,7 @@ router.get('/:type', requireLocation, async (req, res) => {
       }
       break
     case 'POLICE_STATIONS':
-      const nearbyPoliceStations = await getNearByLocation('police stations', lastLocation, 3000)
+      const nearbyPoliceStations = await getNearByLocation('police stations', lastLocation, 5000)
       nearbyMessage = await objectNearByParse(nearbyPoliceStations.results)
       if (nearbyMessage.length != 0) {
         sendApi.sendMessage(userId, messagesApi.nearBySearchText('police stations'))
