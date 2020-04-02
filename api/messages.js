@@ -50,6 +50,24 @@ const createPostbackButton = (title, payload = null) => ({
 })
 
 /**
+ * Message telling that something went wrong on our end.
+ *
+ * @returns {Object}
+ */
+const somethingWentWrongMessage = () => ({
+  text: 'Hey! something went wrong on our end, sorry :(',
+})
+
+/**
+ * Message that says the user has previously disabled the real-time updates.
+ *
+ * @returns {Object}
+ */
+const realtimeUpdatesAlreadyDisabledMessage = () => ({
+  text: 'You are currently not subscribe to real-time notifications.',
+})
+
+/**
  * Message that informs the user that we collected their data and give them
  * option to opt-out
  *
@@ -83,10 +101,10 @@ const latestNewsMessage = (stats, name = 'Buddy') => ({
         `I know you're worried about us. Here's the latest update ` +
         'about COVID-19 today. \n \n' +
         'What we have so far... \n' +
-        `${stats.cases} reported cases 😰 \n` +
-        `${stats.new_cases} new cases 😷 \n` +
-        `${stats.total_recovered} have recovered 😀 \n` +
-        `${stats.deaths} have lost battle. RIP 😇 \n\n` +
+        `${stats.cases} reported cases\n` +
+        `${stats.new_cases} new cases\n` +
+        `${stats.total_recovered} have recovered\n` +
+        `${stats.deaths} have lost battle. RIP\n\n` +
         'Stay safe my friend!',
       buttons: [createPostbackButton('Disable Updates', 'DISABLE_REALTIME_UPDATES')],
     },
@@ -109,7 +127,6 @@ const underDevelopmentMessage = () => ({
  * @returns {Object}
  */
 const nearestTestingCentersMessage = (testingCenters) => {
-
   return {
     attachment: {
       type: 'template',
@@ -371,20 +388,20 @@ const nearBySearchMessage = (resultNearBy) => {
       type: 'template',
       payload: {
         template_type: 'generic',
-        elements:resultNearBy,
+        elements: resultNearBy,
       },
     },
     quick_replies: [createThankfulQuickReply()],
   }
 }
 
-const nearBySearchText = (searchTitle) => { 
+const nearBySearchText = (searchTitle) => {
   return {
     text: `Gotcha! Here's the list of nearest available ${searchTitle} at your location. Stay safe`,
   }
 }
 
-const nearBySearchFail = (searchTitle) => { 
+const nearBySearchFail = (searchTitle) => {
   return {
     text: `Ooops! It seems that there's no available ${searchTitle} near at your location. Sorry, dear. 🥺`,
     quick_replies: [createThankfulQuickReply()],
@@ -410,6 +427,7 @@ const welcomeMessage = (appUrl) => ({
 
 module.exports = {
   // Others
+  realtimeUpdatesAlreadyDisabledMessage,
   realtimeUpdatesMessage,
   latestNewsMessage,
   underDevelopmentMessage,
@@ -417,6 +435,7 @@ module.exports = {
   statisticsMessage,
   locationRequiredMessage,
   nearBySearchMessage,
+  somethingWentWrongMessage,
 
   // Quick Replies
   thankYouMessage,

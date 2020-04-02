@@ -2,8 +2,8 @@ const router = require('express').Router()
 const messagesApi = require('api/messages')
 const sendApi = require('api/send')
 const statsApi = require('api/stats')
-const usersApi = require('api/users')
 const withProfile = require('middleware/with-profile')
+const subscribe = require('utils/subscribe')
 
 router.get('/:region', withProfile, async (req, res) => {
   const { profile } = res
@@ -14,21 +14,8 @@ router.get('/:region', withProfile, async (req, res) => {
 
   sendApi.sendMessage(userId, messagesApi.statisticsMessage(stats, worldwide, profile))
 
-  // ! This is an expensive operation, we should have made it in Get Started section, but we didn't.
-  // We will check if we already have the user's Profile information,
-  // store it if none was found.
-  usersApi.find(userId).catch(() => {
-    usersApi
-      .store({
-        userId,
-        name: `${profile.first_name} ${profile.last_name}`,
-        recieveNotificationsAt: true,
-      })
-      .then(() => {
-        sendApi.sendRealtimeUpdatesMessage(userId)
-      })
-      .catch(console.log)
-  })
+  // Subscribe the user to real-time notifications.
+  subscribe(profile)
 })
 
 module.exports = router

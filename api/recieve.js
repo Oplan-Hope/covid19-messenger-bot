@@ -2,6 +2,8 @@ const messagesApi = require('api/messages')
 const sendApi = require('api/send')
 const userLocationApi = require('api/user-location')
 const usersApi = require('api/users')
+const retrieveProfile = require('utils/retrieve-profile')
+const subscribe = require('utils/subscribe')
 
 /**
  * Postback event handler triggered by a postback action you, the developer,
@@ -26,9 +28,21 @@ const handleReceivePostback = async (event) => {
 
   switch (type) {
     case 'DISABLE_REALTIME_UPDATES':
-      usersApi.update(senderId, { recieveNotificationsAt: null }).then(() => {
-        sendApi.sendRealtimeUpdatesDisabledMessage(senderId)
-      })
+      usersApi
+        .find(senderId)
+        .then((user) => {
+          if (user.recieveNotificationsAt) {
+            usersApi.update(senderId, { recieveNotificationsAt: null }).then(() => {
+              sendApi.sendRealtimeUpdatesDisabledMessage(senderId)
+            })
+          } else {
+            sendApi.sendRealtimeUpdatesAlreadyDisabledMessage(senderId)
+          }
+        })
+        .catch(() => {
+          sendApi.sendSomethingWentWrongMessage(senderId)
+        })
+
       break
 
     case 'RESOURCES':
@@ -37,6 +51,10 @@ const handleReceivePostback = async (event) => {
 
     case 'GET_STARTED':
       sendApi.sendWelcomeMessage(senderId)
+
+      // Subscribe the user to real-time notifications.
+      const profile = await retrieveProfile(senderId, ['id', 'first_name', 'last_name'])
+      subscribe(profile)
       break
   }
 }

@@ -64,6 +64,16 @@ const sendMessage = (recipientId, messages) => {
 }
 
 /**
+ * Send a message telling that something went wrong on our end.
+ *
+ * @param {Number} recipientId
+ * @returns {undefined}
+ */
+const sendSomethingWentWrongMessage = (recipientId) => {
+  sendMessage(recipientId, messages.somethingWentWrongMessage())
+}
+
+/**
  * Sends a message that tells the user we cannot save their location.
  *
  * @param {Number} recipientId
@@ -91,6 +101,16 @@ const sendLocationSharedMessage = (recipientId) => {
  */
 const sendSearchWildcardMessage = (recipientId) => {
   sendMessage(recipientId, messages.searchWildcardMessage(APP_URL))
+}
+
+/**
+ * Sends a message that says the user has previously disabled the real-time updates.
+ *
+ * @param {Number} recipientId
+ * @returns {undefined}
+ */
+const sendRealtimeUpdatesAlreadyDisabledMessage = (recipientId) => {
+  sendMessage(recipientId, messages.realtimeUpdatesAlreadyDisabledMessage())
 }
 
 /**
@@ -155,9 +175,11 @@ module.exports = {
   sendRecieved,
 
   // Others.
+  sendRealtimeUpdatesAlreadyDisabledMessage,
   sendRealtimeUpdatesMessage,
   sendLatestNewsMessage,
   sendLocationRequiredMessage,
+  sendSomethingWentWrongMessage,
 
   // Messages.
   sendLocationNotSharedMessage,
