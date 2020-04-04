@@ -132,7 +132,7 @@ const handleReceiveMessage = (event) => {
       }
     }
   } else if (message.text) {
-    const arrThanks = ['salamat', 'thank you', 'thanks', 'thanks', 'good job', 'i love you', 'mahal kita']
+    const arrThanks = ['salamat', 'thank you', 'thanks', 'thanks', 'good job', 'i love you', 'mahal kita', 'thank you!', 'thank you!!', 'thankyou']
     if (arrThanks.indexOf(message.text.toLowerCase()) > -1) {
       // Simple search matching to send a grateful message :)
       sendApi.sendMessage(senderId, messagesApi.supportiveMessage())
