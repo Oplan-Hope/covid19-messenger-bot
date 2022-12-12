@@ -22,7 +22,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "geolib": "^3.2.1",
     "http-status-codes": "^1.4.0",
     "isomorphic-unfetch": "^3.0.0",
